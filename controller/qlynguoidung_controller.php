@@ -37,7 +37,7 @@ switch ($request_method) {
         $password = $data['matkhau_nguoidung'];
         $role = $data['vaitro_nguoidung'];
         
-        if (!in_array($role, ['0', '1'])) {
+        if ($role !== "0" && $role !== "1") {
             $data = [
                 'status' => 422,
                 'message' => 'Dữ liệu vai trò không hợp lệ',
@@ -82,7 +82,7 @@ switch ($request_method) {
         $password = $data['matkhau_nguoidung'];
         $role = $data['vaitro_nguoidung'];
 
-        if (!in_array($role, ['0', '1'])) {
+        if ($role !== "0" && $role !== "1") {
             $data = [
                 'status' => 422,
                 'message' => 'Dữ liệu vai trò không hợp lệ',
