@@ -32,16 +32,16 @@ class Tacgia {
     }
 
     // Thêm tác giả mới
-    public function addTacgia($ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia, $hinhanh_tacgia) {
-        $query = "INSERT INTO tacgia (ten_tacgia, gioitinh_tacgia, thongtin_tacgia, hinhanh_tacgia) 
-        VALUES (n'$ten_tacgia', n'$gioitinh_tacgia', n'$thongtin_tacgia', n'$hinhanh_tacgia')";
+    public function addTacgia($ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia) {
+        $query = "INSERT INTO tacgia (ten_tacgia, gioitinh_tacgia, thongtin_tacgia) 
+        VALUES (n'$ten_tacgia', n'$gioitinh_tacgia', n'$thongtin_tacgia')";
         return mysqli_query($this->conn, $query);
     }
 
     // Cập nhật thông tin tác giả
-    public function updateTacgia($id, $ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia, $hinhanh_tacgia) {
+    public function updateTacgia($id, $ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia) {
         $query = "UPDATE tacgia SET ten_tacgia=n'$ten_tacgia', gioitinh_tacgia=n'$gioitinh_tacgia', 
-        thongtin_tacgia=n'$thongtin_tacgia', hinhanh_tacgia=n'$hinhanh_tacgia' WHERE tacgia_id=$id";
+        thongtin_tacgia=n'$thongtin_tacgia' WHERE tacgia_id=$id";
         return mysqli_query($this->conn, $query);
     }
 
@@ -74,7 +74,7 @@ function readTacgiaById($tacgiaModel) {
 
 function addTacgia($tacgiaModel) {
     $data = json_decode(file_get_contents("php://input"), true);
-    if (!isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia']) || !isset($data['hinhanh_tacgia'])) {
+    if (!isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia'])) {
         echo json_encode(["message" => "Thiếu dữ liệu!"]);
         return;
     }
@@ -82,9 +82,8 @@ function addTacgia($tacgiaModel) {
     $ten_tacgia = $data['ten_tacgia'];
     $gioitinh_tacgia = $data['gioitinh_tacgia'];
     $thongtin_tacgia = $data['thongtin_tacgia'];
-    $hinhanh_tacgia = $data['hinhanh_tacgia'];
 
-    if ($tacgiaModel->addTacgia($ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia, $hinhanh_tacgia)) {
+    if ($tacgiaModel->addTacgia($ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia)) {
         echo json_encode(["message" => "Thêm tác giả thành công!"]);
     } else {
         echo json_encode(["message" => "Thêm tác giả thất bại!"]);
@@ -93,7 +92,7 @@ function addTacgia($tacgiaModel) {
 
 function updateTacgia($tacgiaModel) {
     $data = json_decode(file_get_contents("php://input"), true);
-    if (!isset($data['tacgia_id']) || !isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia']) || !isset($data['hinhanh_tacgia'])) {
+    if (!isset($data['tacgia_id']) || !isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia'])) {
         echo json_encode(["message" => "Thiếu dữ liệu!"]);
         return;
     }
@@ -102,9 +101,8 @@ function updateTacgia($tacgiaModel) {
     $ten_tacgia = $data['ten_tacgia'];
     $gioitinh_tacgia = $data['gioitinh_tacgia'];
     $thongtin_tacgia = $data['thongtin_tacgia'];
-    $hinhanh_tacgia = $data['hinhanh_tacgia'];
 
-    if ($tacgiaModel->updateTacgia($id, $ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia, $hinhanh_tacgia)) {
+    if ($tacgiaModel->updateTacgia($id, $ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia)) {
         echo json_encode(["message" => "Cập nhật tác giả thành công!"]);
     } else {
         echo json_encode(["message" => "Cập nhật tác giả thất bại!"]);

@@ -1,5 +1,4 @@
 <?php
-// include('../config/db.php');
 include('../model/qlytacgia_model.php');
 
 header('Content-Type: application/json');
@@ -22,7 +21,7 @@ switch ($request_method) {
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia']) || !isset($data['hinhanh_tacgia'])) {
+        if (!isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia'])) {
             http_response_code(422);
             $data = [
                 'status' => 422,
@@ -34,7 +33,6 @@ switch ($request_method) {
         $name = $data['ten_tacgia'];
         $gender = $data['gioitinh_tacgia'];
         $info = $data['thongtin_tacgia'];
-        $image = $data['hinhanh_tacgia'];
 
         // Kiểm tra giá trị của gioitinh_tacgia
         if ($gender !== "0" && $gender !== "1") {
@@ -46,7 +44,7 @@ switch ($request_method) {
             exit;
         }
 
-        if ($tacgiaModel->addTacgia($name, $gender, $info, $image)) {
+        if ($tacgiaModel->addTacgia($name, $gender, $info)) {
             http_response_code(200);
             $data = [
                 'status' => 200,
@@ -64,9 +62,11 @@ switch ($request_method) {
         break;
 
     case 'PUT':
+        // Lấy dữ liệu JSON từ Postman
         $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!isset($data['tacgia_id']) || !isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia']) || !isset($data['hinhanh_tacgia'])) {
+        // Kiểm tra xem có đủ dữ liệu đầu vào không
+        if (!isset($data['tacgia_id'], $data['ten_tacgia'], $data['gioitinh_tacgia'], $data['thongtin_tacgia'])) {
             http_response_code(422);
             $data = [
                 'status' => 422,
@@ -75,11 +75,11 @@ switch ($request_method) {
             echo json_encode($data);
             break;
         }
+        
         $id = $data['tacgia_id'];
         $name = $data['ten_tacgia'];
         $gender = $data['gioitinh_tacgia'];
         $info = $data['thongtin_tacgia'];
-        $image = $data['hinhanh_tacgia'];
 
         // Kiểm tra giá trị của gioitinh_tacgia
         if ($gender !== "0" && $gender !== "1") {
@@ -90,19 +90,19 @@ switch ($request_method) {
             echo json_encode($data);
             exit;
         }
-
-        if ($tacgiaModel->updateTacgia($id, $name, $gender, $info, $image)) {
+        
+        if ($tacgiaModel->updateTacgia($id, $name, $gender, $info)) {
             http_response_code(200);
             $data = [
                 'status' => 200,
-                'message' => 'Cập nhật tác giả thành công!',
+                'message' => 'Cập nhật thông tin tác giả thành công!',
             ];
             echo json_encode($data);
         } else {
             http_response_code(500);
             $data = [
                 'status' => 500,
-                'message' => 'Cập nhật tác giả thất bại!',
+                'message' => 'Cập nhật thông tin tác giả thất bại!',
             ];
             echo json_encode($data);
         }
