@@ -42,7 +42,7 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="../view/nguoidung_view.php">Tài Khoản</a></li>
-                      <li><a class="dropdown-item" href="../quanlysach/sach.php">Sách</a></li>
+                      <li><a class="dropdown-item" href="../view/sach_view.php">Sách</a></li>
                       <li><a class="dropdown-item" href="../view/docgia_view.php">Độc giả</a></li>
                       <li><a class="dropdown-item" href="../view/tacgia_view.php">Tác giả</a></li>
                       <li><a class="dropdown-item" href="../view/nxb_view.php">Nhà xuất bản</a></li>

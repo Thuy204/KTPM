@@ -39,12 +39,11 @@ if (isset($_POST['timkiem'])) {
                         <td>" . $row["ten_tacgia"] . "</td>
                         <td>" . ($row["gioitinh_tacgia"] == 1 ? 'Nam' : 'Nữ') . "</td>
                         <td>" . $row["thongtin_tacgia"] . "</td>
-                        <td><img src='../img/tacgia/" . $row["hinhanh_tacgia"] . "' alt='img' width='70'></td>
                     </tr>";
             }
         }
         ?>
         </tbody>
     </table>
-    <a href="index.php" class="btn btn-warning">Quay lại</a>
+    <a href="../view/tacgia_view.php" class="btn btn-warning">Quay lại</a>
 </div>
