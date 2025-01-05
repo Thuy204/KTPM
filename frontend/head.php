@@ -45,8 +45,8 @@
                       <li><a class="dropdown-item" href="../quanlysach/sach.php">Sách</a></li>
                       <li><a class="dropdown-item" href="../view/docgia_view.php">Độc giả</a></li>
                       <li><a class="dropdown-item" href="../view/tacgia_view.php">Tác giả</a></li>
-                      <li><a class="dropdown-item" href="../nhaxuatban">Nhà xuất bản</a></li>
-                      <li><a class="dropdown-item" href="../theloai/read.php">Thể loại</a></li>
+                      <li><a class="dropdown-item" href="../view/nxb_view.php">Nhà xuất bản</a></li>
+                      <li><a class="dropdown-item" href="../view/theloai_view.php">Thể loại</a></li>
                       <li><a class="dropdown-item" href="../csvc">Cơ sở vật chất</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="../quanly_muontra/muontra.php">Mượn trả</a></li>

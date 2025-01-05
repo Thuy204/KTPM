@@ -1,5 +1,5 @@
 <?php
-class NXBModel {
+class Nhaxuatban {
     private $conn;
     private $table = "nhaxuatban";
 
@@ -7,120 +7,111 @@ class NXBModel {
         $this->conn = $db;
     }
 
-    public function add_nxb($ten_nxb, $thongtin_nxb, $hinhanh_nxb) {
-        $query = "INSERT INTO nhaxuatban (ten_nxb, thongtin_nxb, hinhanh_nxb) VALUES ('$ten_nxb', '$thongtin_nxb', '$hinhanh_nxb')";
-        return mysqli_query($this->conn, $query);
-    }
-
-    public function update_nxb($nxb_id, $ten_nxb, $thongtin_nxb, $hinhanh_nxb) {
-        $query = "UPDATE nhaxuatban SET ten_nxb='$ten_nxb', thongtin_nxb='$thongtin_nxb', hinhanh_nxb='$hinhanh_nxb' WHERE nxb_id=$nxb_id";
-        return mysqli_query($this->conn, $query);
-    }
-
-    public function delete_nxb($nxb_id) {
-        $query = "DELETE FROM nhaxuatban WHERE nxb_id=$nxb_id";
-        return mysqli_query($this->conn, $query);
-    }
-
-    // Thêm phương thức lấy tất cả nxb
-    public function get_all_nxb() {
+    public function readAllNhaxuatban() {
         $query = "SELECT * FROM nhaxuatban";
         $result = mysqli_query($this->conn, $query);
 
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
         if ($result) {
-            return mysqli_fetch_all($result, MYSQLI_ASSOC); 
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
         } else {
             return [];
         }
     }
 
-    // Thêm phương thức lấy nxb theo ID
-    public function get_nxb_by_id($nxb_id) {
-        $query = "SELECT * FROM nhaxuatban WHERE nxb_id = $nxb_id";
+    public function readNhaxuatbanById($id) {
+        $query = "SELECT * FROM nhaxuatban WHERE nxb_id = $id";
         $result = mysqli_query($this->conn, $query);
 
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
         if ($result) {
-            return mysqli_fetch_assoc($result); 
+            return mysqli_fetch_assoc($result); // Trả về kết quả dạng mảng kết hợp
         } else {
             return null;
         }
     }
+
+    public function addNhaxuatban($name, $info) {
+        $query = "INSERT INTO nhaxuatban (ten_nxb, thongtin_nxb) 
+        VALUES (n'$name', n'$info')";
+        return mysqli_query($this->conn, $query);
+    }
+
+    public function updateNhaxuatban($id, $name, $info) {
+        $query = "UPDATE nhaxuatban SET ten_nxb = n'$name', thongtin_nxb = n'$info' WHERE nxb_id = $id";
+        return mysqli_query($this->conn, $query);
+    }
+
+    public function deleteNhaxuatban($id) {
+        $query = "DELETE FROM nhaxuatban WHERE nxb_id = $id";
+        return mysqli_query($this->conn, $query);
+    }
 }
 
-// Hàm thêm nxb
-function add_nxb($csvModel) {
-    $data = json_decode(file_get_contents("php://input"), true); 
-    if (!isset($data['ten_nxb']) || !isset($data['thongtin_nxb']) || !isset($data['hinhanh_nxb'])) {
-        echo json_encode(["message" => "Dữ liệu không hợp lệ"]);
+function readAllNhaxuatban($nxbModel) {
+    $nhaxuatban = $nxbModel->readAllNhaxuatban();
+    if (count($nhaxuatban) > 0) {
+        echo json_encode($nhaxuatban); // Trả về danh sách nhà xuất bản
+    } else {
+        echo json_encode(["message" => "Không tồn tại nhà xuất bản nào!"]);
+    }
+}
+
+function readNhaxuatbanById($nxbModel) {
+    $nxb_id = $_GET['id']; // Lấy ID từ URL
+    $nhaxuatban = $nxbModel->readNhaxuatbanById($nxb_id);
+    if ($nhaxuatban) {
+        echo json_encode($nhaxuatban); // Trả về dữ liệu nhà xuất bản theo ID
+    } else {
+        echo json_encode(["message" => "Không tìm thấy nhà xuất bản nào với ID: $nxb_id"]);
+    }
+}
+
+function addNhaxuatban($nxbModel) {
+    $data = json_decode(file_get_contents("php://input"), true); // Lấy dữ liệu JSON từ Postman
+    if (!isset($data['ten_nxb']) || !isset($data['thongtin_nxb'])) {
+        echo json_encode(["message" => "Thiếu dữ liệu!"]);
         return;
     }
 
-    $ten_nxb = $data['ten_nxb'];
-    $thongtin_nxb = $data['thongtin_nxb'];
-    $hinhanh_nxb = $data['hinhanh_nxb'];
+    $name = $data["ten_nxb"];
+    $info = $data["thongtin_nxb"];
 
-    if ($csvModel->add_nxb($ten_nxb, $thongtin_nxb, $hinhanh_nxb)) {
-        echo json_encode(["message" => "NXB đã được thêm"]);
+    if ($nxbModel->addNhaxuatban($name, $info)) {
+        echo json_encode(["message" => "Thêm nhà xuất bản thành công!"]);
     } else {
-        echo json_encode(["message" => "Thêm NXB thất bại"]);
+        echo json_encode(["message" => "Thêm nhà xuất bản thất bại!"]);
     }
 }
 
-// Hàm cập nhật nxb
-function update_nxb($csvModel) {
-    $data = json_decode(file_get_contents("php://input"), true); 
-    if (!isset($data['nxb_id']) || !isset($data['ten_nxb']) || !isset($data['thongtin_nxb']) || !isset($data['hinhanh_nxb'])) {
-        echo json_encode(["message" => "Dữ liệu không hợp lệ"]);
+function updateNhaxuatban($nxbModel) {
+    $data = json_decode(file_get_contents("php://input"), true); // Lấy dữ liệu JSON từ Postman
+    if (!isset($data['nxb_id']) || !isset($data['ten_nxb']) || !isset($data['thongtin_nxb'])) {
+        echo json_encode(["message" => "Thiếu dữ liệu"]);
         return;
     }
 
-    $nxb_id = $data['nxb_id'];
-    $ten_nxb = $data['ten_nxb'];
-    $thongtin_nxb = $data['thongtin_nxb'];
-    $hinhanh_nxb = $data['hinhanh_nxb'];
+    $id = $data["nxb_id"];
+    $name = $data["ten_nxb"];
+    $info = $data["thongtin_nxb"];
 
-    if ($csvModel->update_nxb($nxb_id, $ten_nxb, $thongtin_nxb, $hinhanh_nxb)) {
-        echo json_encode(["message" => "NXB đã được cập nhật"]);
+    if ($nxbModel->updateNhaxuatban($id, $name, $info)) {
+        echo json_encode(["message" => "Cập nhật thông tin nhà xuất bản thành công!"]);
     } else {
-        echo json_encode(["message" => "Cập nhật NXB thất bại"]);
+        echo json_encode(["message" => "Cập nhật thông tin nhà xuất bản thất bại!"]);
     }
 }
 
-// Hàm xóa nxb
-function delete_nxb($csvModel) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (!isset($data['nxb_id'])) {
-        echo json_encode(["message" => "Dữ liệu không hợp lệ"]);
-        return;
-    }
-
-    $nxb_id = $data['nxb_id'];
-
-    if ($csvModel->delete_nxb($nxb_id)) {
-        echo json_encode(["message" => "NXB đã được xóa"]);
+function deleteNhaxuatban($nxbModel) {
+    if (isset($_GET['nxb_id'])) {
+        $id = intval($_GET['nxb_id']);
+        if ($nxbModel->deleteNhaxuatban($id)) {
+            echo json_encode(["message" => "Xoá nhà xuất bản thành công!"]);
+        } else {
+            echo json_encode(["message" => "Xóa nhà xuất bản thất bại!"]);
+        }
     } else {
-        echo json_encode(["message" => "Xóa NXB thất bại"]);
-    }
-}
-
-// Hàm lấy tất cả nxb
-function get_all_nxb($csvModel) {
-    $nxb = $csvModel->get_all_nxb();
-    if (count($nxb) > 0) {
-        echo json_encode($nxb);
-    } else {
-        echo json_encode(["message" => "Không tìm thấy NXB nào"]);
-    }
-}
-
-// Hàm lấy nxb theo ID
-function get_nxb_by_id($csvModel) {
-    $nxb_id = $_GET['id']; 
-    $nxb = $csvModel->get_nxb_by_id($nxb_id);
-    if ($nxb) {
-        echo json_encode($nxb); 
-    } else {
-        echo json_encode(["message" => "Không tìm thấy NXB với ID: $nxb_id"]);
+        echo json_encode(["message" => "Thiếu ID nhà xuất bản!"]);
     }
 }
 ?>
