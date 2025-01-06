@@ -15,7 +15,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
-
+            <th>Password</th>
             <th>Vai trò</th>
         </thead>
         <tbody>
@@ -33,8 +33,8 @@
                     <td>" . $row["id_nguoidung"] . "</td>
                     <td>" . $row["ten_nguoidung"] . "</td>
                     <td>" . $row["email_nguoidung"] . "</td>
-
-                    <td>" . ($row["vaitro_nguoidung"] == 1 ? 'Nhân viên' : 'Sinh viên') . "</td>
+                    <td>" . $row["matkhau_nguoidung"] . "</td>
+                    <td>" . ($row["vaitro_nguoidung"] == 1 ? 'Sinh viên' : 'Nhân viên') . "</td>
                 </tr>";
         }
     }
