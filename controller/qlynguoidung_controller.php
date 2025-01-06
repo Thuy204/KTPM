@@ -5,6 +5,8 @@ include('../model/qlynguoidung_model.php');
 header('Content-Type: application/json');
 header("Access-Control-Allow-Methods: POST, PUT, DELETE, GET");
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
 
 $conn = new mysqli('localhost', 'root', '', 'qly_thuvien');
 $nguoidungModel = new Nguoidung($conn);
@@ -37,7 +39,7 @@ switch ($request_method) {
         $password = $data['matkhau_nguoidung'];
         $role = $data['vaitro_nguoidung'];
         
-        if ($role !== "0" && $role !== "1") {
+        if ($role !== "Nhân viên" && $role !== "Sinh viên") {
             $data = [
                 'status' => 422,
                 'message' => 'Dữ liệu vai trò không hợp lệ',
@@ -66,7 +68,7 @@ switch ($request_method) {
     case 'PUT':
         $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!isset($data['id_nguoidung']) || !isset($data['ten_nguoidung']) || !isset($data['email_nguoidung']) || !isset($data['matkhau_nguoidung']) || !isset($data['vaitro_nguoidung'])) {
+        if (!isset($data['ten_nguoidung']) || !isset($data['email_nguoidung']) || !isset($data['matkhau_nguoidung']) || !isset($data['vaitro_nguoidung'])) {
             http_response_code(422);
             $data = [
                 'status' => 422,
@@ -76,13 +78,12 @@ switch ($request_method) {
             break;
         }
         
-        $id = $data['id_nguoidung'];
         $name = $data['ten_nguoidung'];
         $email = $data['email_nguoidung'];
         $password = $data['matkhau_nguoidung'];
         $role = $data['vaitro_nguoidung'];
 
-        if ($role !== "0" && $role !== "1") {
+        if ($role !== "Nhân viên" && $role !== "Sinh viên") {
             $data = [
                 'status' => 422,
                 'message' => 'Dữ liệu vai trò không hợp lệ',
@@ -91,7 +92,7 @@ switch ($request_method) {
             exit;
         }
 
-        if ($nguoidungModel->updateNguoidung($id, $name, $email, $password, $role)) {
+        if ($nguoidungModel->updateNguoidung( $name, $email, $password, $role)) {
             http_response_code(200);
             $data = [
                 'status' => 200,
