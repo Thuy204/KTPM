@@ -180,7 +180,7 @@
 <script>
 // Hàm load dữ liệu độc giả
 function loadDocgia() {
-    fetch('http://localhost/QLTV/controller/qlydocgia_controller.php', {
+    fetch('http://localhost/KTPM/controller/qlydocgia_controller.php', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
@@ -234,7 +234,7 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
     }
 
     // Gửi dữ liệu đến server qua fetch API
-    fetch('http://localhost/QLTV/controller/qlydocgia_controller.php', {
+    fetch('http://localhost/KTPM/controller/qlydocgia_controller.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
@@ -260,7 +260,7 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
     });
     // Hàm chỉnh sửa độc giả
 function editDocgia(docgia_id) {
-    fetch(`http://localhost/QLTV/controller/qlydocgia_controller.php?id=${docgia_id}`) 
+    fetch(`http://localhost/KTPM/controller/qlydocgia_controller.php?id=${docgia_id}`) 
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Lỗi HTTP: ${response.status}`);
@@ -300,7 +300,7 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
         email: document.getElementById('edit_email').value
     };
     // Gửi dữ liệu đến server qua fetch API
-    fetch('http://localhost/QLTV/controller/qlydocgia_controller.php', {
+    fetch('http://localhost/KTPM/controller/qlydocgia_controller.php', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
@@ -327,7 +327,7 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
     });
     function deleteDocgia(docgia_id) {
     if (confirm("Bạn có chắc chắn muốn xóa độc giả này?")) {
-        fetch(`http://localhost/QLTV/controller/qlydocgia_controller.php?docgia_id=${docgia_id}`, {
+        fetch(`http://localhost/KTPM/controller/qlydocgia_controller.php?docgia_id=${docgia_id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',  // Đảm bảo rằng headers là json

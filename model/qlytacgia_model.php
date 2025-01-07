@@ -1,5 +1,5 @@
 <?php
-class TacGia {
+class Tacgia {
     private $conn;
     private $table = "tacgia";
 
@@ -7,23 +7,9 @@ class TacGia {
         $this->conn = $db;
     }
 
-    public function add_tacgia($ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia, $hinhanh_tacgia) {
-        $query = "INSERT INTO " . $this->table . " (ten_tacgia, gioitinh_tacgia, thongtin_tacgia, hinhanh_tacgia) VALUES ('$ten_tacgia', $gioitinh_tacgia, '$thongtin_tacgia', '$hinhanh_tacgia')";
-        return mysqli_query($this->conn, $query);
-    }
-
-    public function update_tacgia($tacgia_id, $ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia, $hinhanh_tacgia) {
-        $query = "UPDATE " . $this->table . " SET ten_tacgia='$ten_tacgia', gioitinh_tacgia=$gioitinh_tacgia, thongtin_tacgia='$thongtin_tacgia', hinhanh_tacgia='$hinhanh_tacgia' WHERE tacgia_id=$tacgia_id";
-        return mysqli_query($this->conn, $query);
-    }
-
-    public function delete_tacgia($tacgia_id) {
-        $query = "DELETE FROM " . $this->table . " WHERE tacgia_id=$tacgia_id";
-        return mysqli_query($this->conn, $query);
-    }
-
-    public function get_all_tacgia() {
-        $query = "SELECT * FROM " . $this->table;
+    // Lấy tất cả tác giả
+    public function readAllTacgia() {
+        $query = "SELECT * FROM tacgia";
         $result = mysqli_query($this->conn, $query);
 
         if ($result) {
@@ -33,8 +19,9 @@ class TacGia {
         }
     }
 
-    public function get_tacgia_by_id($tacgia_id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE tacgia_id = $tacgia_id";
+    // Lấy tác giả theo ID
+    public function readTacgiaById($id) {
+        $query = "SELECT * FROM tacgia WHERE tacgia_id = $id";
         $result = mysqli_query($this->conn, $query);
 
         if ($result) {
@@ -43,84 +30,98 @@ class TacGia {
             return null;
         }
     }
-}
 
-// Hàm thêm tác giả
-function add_tacgia($tacGiaModel) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (!isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia']) || !isset($data['hinhanh_tacgia'])) {
-        echo json_encode(["message" => "Invalid input"]);
-        return;
+    // Thêm tác giả mới
+    public function addTacgia($ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia) {
+        $query = "INSERT INTO tacgia (ten_tacgia, gioitinh_tacgia, thongtin_tacgia) 
+        VALUES (n'$ten_tacgia', n'$gioitinh_tacgia', n'$thongtin_tacgia')";
+        return mysqli_query($this->conn, $query);
     }
 
-    $ten_tacgia = $data['ten_tacgia'];
-    $gioitinh_tacgia = $data['gioitinh_tacgia'];
-    $thongtin_tacgia = $data['thongtin_tacgia'];
-    $hinhanh_tacgia = $data['hinhanh_tacgia'];
+    // Cập nhật thông tin tác giả
+    public function updateTacgia($id, $ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia) {
+        $query = "UPDATE tacgia SET ten_tacgia=n'$ten_tacgia', gioitinh_tacgia=n'$gioitinh_tacgia', 
+        thongtin_tacgia=n'$thongtin_tacgia' WHERE tacgia_id=$id";
+        return mysqli_query($this->conn, $query);
+    }
 
-    if ($tacGiaModel->add_tacgia($ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia, $hinhanh_tacgia)) {
-        echo json_encode(["message" => "Tác giả đã được thêm"]);
+    // Xóa tác giả
+    public function deleteTacgia($id) {
+        $query = "DELETE FROM tacgia WHERE tacgia_id=$id";
+        return mysqli_query($this->conn, $query);
+    }
+}
+
+// Hàm xử lý API tương tự
+function readAllTacgia($tacgiaModel) {
+    $tacgia = $tacgiaModel->readAllTacgia();
+    if (count($tacgia) > 0) {
+        echo json_encode($tacgia);
     } else {
-        echo json_encode(["message" => "Thêm tác giả thất bại"]);
+        echo json_encode(["message" => "Không tồn tại tác giả nào!"]);
     }
 }
 
-// Hàm cập nhật tác giả
-function update_tacgia($tacGiaModel) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (!isset($data['tacgia_id']) || !isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia']) || !isset($data['hinhanh_tacgia'])) {
-        echo json_encode(["message" => "Invalid input"]);
-        return;
-    }
-
-    $tacgia_id = $data['tacgia_id'];
-    $ten_tacgia = $data['ten_tacgia'];
-    $gioitinh_tacgia = $data['gioitinh_tacgia'];
-    $thongtin_tacgia = $data['thongtin_tacgia'];
-    $hinhanh_tacgia = $data['hinhanh_tacgia'];
-
-    if ($tacGiaModel->update_tacgia($tacgia_id, $ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia, $hinhanh_tacgia)) {
-        echo json_encode(["message" => "Tác giả đã được cập nhật"]);
-    } else {
-        echo json_encode(["message" => "Cập nhật tác giả thất bại"]);
-    }
-}
-
-// Hàm xóa tác giả
-function delete_tacgia($tacGiaModel) {
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (!isset($data['tacgia_id'])) {
-        echo json_encode(["message" => "Invalid input"]);
-        return;
-    }
-
-    $tacgia_id = $data['tacgia_id'];
-
-    if ($tacGiaModel->delete_tacgia($tacgia_id)) {
-        echo json_encode(["message" => "Tác giả đã được xóa"]);
-    } else {
-        echo json_encode(["message" => "Xóa tác giả thất bại"]);
-    }
-}
-
-// Hàm lấy tất cả tác giả
-function get_all_tacgia($tacGiaModel) {
-    $tacgias = $tacGiaModel->get_all_tacgia();
-    if (count($tacgias) > 0) {
-        echo json_encode($tacgias);
-    } else {
-        echo json_encode(["message" => "Không tìm thấy tác giả nào"]);
-    }
-}
-
-// Hàm lấy tác giả theo ID
-function get_tacgia_by_id($tacGiaModel) {
+function readTacgiaById($tacgiaModel) {
     $tacgia_id = $_GET['id'];
-    $tacgia = $tacGiaModel->get_tacgia_by_id($tacgia_id);
+    $tacgia = $tacgiaModel->readTacgiaById($tacgia_id);
     if ($tacgia) {
         echo json_encode($tacgia);
     } else {
         echo json_encode(["message" => "Không tìm thấy tác giả với ID: $tacgia_id"]);
+    }
+}
+
+function addTacgia($tacgiaModel) {
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia'])) {
+        echo json_encode(["message" => "Thiếu dữ liệu!"]);
+        return;
+    }
+
+    $ten_tacgia = $data['ten_tacgia'];
+    $gioitinh_tacgia = $data['gioitinh_tacgia'];
+    $thongtin_tacgia = $data['thongtin_tacgia'];
+
+    if ($tacgiaModel->addTacgia($ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia)) {
+        echo json_encode(["message" => "Thêm tác giả thành công!"]);
+    } else {
+        echo json_encode(["message" => "Thêm tác giả thất bại!"]);
+    }
+}
+
+function updateTacgia($tacgiaModel) {
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!isset($data['tacgia_id']) || !isset($data['ten_tacgia']) || !isset($data['gioitinh_tacgia']) || !isset($data['thongtin_tacgia'])) {
+        echo json_encode(["message" => "Thiếu dữ liệu!"]);
+        return;
+    }
+
+    $id = $data['tacgia_id'];
+    $ten_tacgia = $data['ten_tacgia'];
+    $gioitinh_tacgia = $data['gioitinh_tacgia'];
+    $thongtin_tacgia = $data['thongtin_tacgia'];
+
+    if ($tacgiaModel->updateTacgia($id, $ten_tacgia, $gioitinh_tacgia, $thongtin_tacgia)) {
+        echo json_encode(["message" => "Cập nhật tác giả thành công!"]);
+    } else {
+        echo json_encode(["message" => "Cập nhật tác giả thất bại!"]);
+    }
+}
+
+function deleteTacgia($tacgiaModel) {
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!isset($data['tacgia_id'])) {
+        echo json_encode(["message" => "Thiếu ID tác giả!"]);
+        return;
+    }
+
+    $id = $data['tacgia_id'];
+
+    if ($tacgiaModel->deleteTacgia($id)) {
+        echo json_encode(["message" => "Xóa tác giả thành công!"]);
+    } else {
+        echo json_encode(["message" => "Xóa tác giả thất bại!"]);
     }
 }
 ?>
