@@ -54,10 +54,11 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Gender</th>
+                    <th>Họ và tên</th>
+                    <th>Tuổi</th>
+                    <th>Giới tính</th>
                     <th>SĐT</th>
+                    <th>Email</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -105,6 +106,10 @@
                             <label for="sdt_docgia">SĐT</label>
                             <input type="phone" class="form-control" id="sdt_docgia" required>
                         </div>
+                        <div class="form-group">
+                            <label for="email_docgia">Email</label>
+                            <input type="email" class="form-control" id="email_docgia" required>
+                        </div>
                         <button type="submit" class="btn btn-primary">Thêm độc giả</button>
                     </form>
                 </div>
@@ -148,6 +153,10 @@
                         <div class="mb-3">
                             <label for="edit_sdt_docgia" class="form-label">Số điện thoại</label>
                             <input type="phone" class="form-control" id="edit_sdt" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email_docgia">Email</label>
+                            <input type="email" class="form-control" id="edit_email" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -194,6 +203,7 @@ function loadDocgia() {
                         <td>${docgia.tuoi_docgia}</td>
                         <td>${docgia.gioitinh_docgia === "0" ? 'Nam' : 'Nữ'}</td>
                         <td>${docgia.sdt_docgia}</td>
+                        <td>${docgia.email}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editDocgia(${docgia.docgia_id})">Update</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteDocgia(${docgia.docgia_id})">Delete</button>
@@ -213,11 +223,12 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
         ten_docgia: document.getElementById('ten_docgia').value,
         tuoi_docgia: document.getElementById('tuoi_docgia').value,
         gioitinh_docgia: document.querySelector('input[name="gioitinh_docgia"]:checked')?.value,
-        sdt_docgia: document.getElementById('sdt_docgia').value
+        sdt_docgia: document.getElementById('sdt_docgia').value,
+        email: document.getElementById('email_docgia').value
     };
 
     // Kiểm tra xem tất cả các trường có dữ liệu
-    if (!data.ten_docgia || !data.tuoi_docgia || !data.gioitinh_docgia || !data.sdt_docgia) {
+    if (!data.ten_docgia || !data.tuoi_docgia || !data.gioitinh_docgia || !data.sdt_docgia || !data.email) {
         alert('Vui lòng điền đầy đủ thông tin!');
         return;
     }
@@ -239,6 +250,7 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
         document.getElementById('tuoi_docgia').value = '';
         document.querySelector('input[name="gioitinh_docgia"]:checked').checked = false; // Đặt lại radio button
         document.getElementById('sdt_docgia').value = '';
+        document.getElementById('email_docgia').value = '';
         loadDocgia(); // Tải lại danh sách độc giả
     })
     .catch(error => {
@@ -246,7 +258,7 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
         alert('Đã xảy ra lỗi: ' + error.message);
     });
     });
-    // Hàm chỉnh sửa cơ sở vật chất
+    // Hàm chỉnh sửa độc giả
 function editDocgia(docgia_id) {
     fetch(`http://localhost/QLTV/controller/qlydocgia_controller.php?id=${docgia_id}`) 
         .then(response => {
@@ -265,6 +277,7 @@ function editDocgia(docgia_id) {
                 });
                 document.getElementById('edit_sdt').value = docgia.sdt_docgia;
                 document.getElementById('docgia_id').value = docgia.docgia_id;
+                document.getElementById('edit_email').value = docgia.email;
                 $('#editModal').modal('show');
             } else {
                 alert("Không tìm thấy thông tin độc giả!");
@@ -283,7 +296,8 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
         ten_docgia: document.getElementById('edit_ten').value,
         tuoi_docgia: document.getElementById('edit_tuoi').value,
         gioitinh_docgia: document.querySelector('input[name="edit_gioitinh"]:checked')?.value,
-        sdt_docgia: document.getElementById('edit_sdt').value
+        sdt_docgia: document.getElementById('edit_sdt').value,
+        email: document.getElementById('edit_email').value
     };
     // Gửi dữ liệu đến server qua fetch API
     fetch('http://localhost/QLTV/controller/qlydocgia_controller.php', {
@@ -303,6 +317,7 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
         document.getElementById('edit_tuoi').value = '';
         document.querySelector('input[name="edit_gioitinh"]:checked').checked = false; // Đặt lại radio button
         document.getElementById('edit_sdt').value = '';
+        document.getElementById('edit_email').value = '';
         loadDocgia(); // Tải lại danh sách độc giả sau cập nhật
     })
     .catch(error => {

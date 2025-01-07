@@ -49,7 +49,7 @@
                       <li><a class="dropdown-item" href="../theloai/read.php">Thể loại</a></li>
                       <li><a class="dropdown-item" href="../csvc">Cơ sở vật chất</a></li>
                       <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="../quanly_muontra/muontra.php">Mượn trả</a></li>
+                      <li><a class="dropdown-item" href="../view/muontra_view.php">Mượn trả</a></li>
                     </ul>
                   </li>
                   <li class="nav-item">
