@@ -259,7 +259,7 @@ function edit_csvc(csvc_id) {
     };
 
     fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', { // Thêm action=update
-        method: 'PUT', // Dùng POST nếu PUT không được hỗ trợ
+        method: 'PUT', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
     })
