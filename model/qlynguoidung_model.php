@@ -48,18 +48,23 @@ class NguoiDung {
         return $stmt->execute();
     }
 
-    public function deleteNguoiDung($id) {
-        $query = "DELETE FROM " . $this->table . " WHERE id_nguoidung = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $id);
+    // public function deleteNguoiDung($id) {
+    //     $query = "DELETE FROM " . $this->table . " WHERE id_nguoidung = ?";
+    //     $stmt = $this->conn->prepare($query);
+    //     $stmt->bind_param("i", $id);
 
-        return $stmt->execute();
+    //     return $stmt->execute();
+    // }
+
+    public function deleteNguoiDung($id) {
+        $query = "DELETE FROM nguoidung WHERE csvc_id=$id";
+        return mysqli_query($this->conn, $query);
     }
 }
 
 // Các hàm xử lý API
-function readAllNguoiDung($nguoiDungModel) {
-    $nguoidung = $nguoiDungModel->readAllNguoiDung();
+function readAllNguoiDung($nguoidungModel) {
+    $nguoidung = $nguoidungModel->readAllNguoiDung();
     if (count($nguoidung) > 0) {
         echo json_encode($nguoidung);
     } else {
@@ -67,14 +72,14 @@ function readAllNguoiDung($nguoiDungModel) {
     }
 }
 
-function readNguoiDungById($nguoiDungModel) {
+function readNguoiDungById($nguoidungModel) {
     $id = $_GET['id'] ?? null;
     if (!$id) {
         echo json_encode(["message" => "Thiếu ID người dùng!"]);
         return;
     }
 
-    $nguoidung = $nguoiDungModel->readNguoiDungById($id);
+    $nguoidung = $nguoidungModel->readNguoiDungById($id);
     if ($nguoidung) {
         echo json_encode($nguoidung);
     } else {
@@ -82,7 +87,7 @@ function readNguoiDungById($nguoiDungModel) {
     }
 }
 
-function addNguoiDung($nguoiDungModel) {
+function addNguoiDung($nguoidungModel) {
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (!isset($data['ten_nguoidung'], $data['email_nguoidung'], $data['matkhau_nguoidung'], $data['vaitro_nguoidung'])) {
@@ -95,14 +100,14 @@ function addNguoiDung($nguoiDungModel) {
     $password = password_hash($data['matkhau_nguoidung'], PASSWORD_BCRYPT);
     $role = $data['vaitro_nguoidung'];
 
-    if ($nguoiDungModel->addNguoiDung($name, $email, $password, $role)) {
+    if ($nguoidungModel->addNguoiDung($name, $email, $password, $role)) {
         echo json_encode(["message" => "Thêm người dùng thành công!"]);
     } else {
         echo json_encode(["message" => "Thêm người dùng thất bại!"]);
     }
 }
 
-function updateNguoiDung($nguoiDungModel) {
+function updateNguoiDung($nguoidungModel) {
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (!isset($data['id_nguoidung'], $data['ten_nguoidung'], $data['email_nguoidung'], $data['matkhau_nguoidung'], $data['vaitro_nguoidung'])) {
@@ -116,27 +121,38 @@ function updateNguoiDung($nguoiDungModel) {
     $password = password_hash($data['matkhau_nguoidung'], PASSWORD_BCRYPT);
     $role = $data['vaitro_nguoidung'];
 
-    if ($nguoiDungModel->updateNguoiDung($id, $name, $email, $password, $role)) {
+    if ($nguoidungModel->updateNguoiDung($id, $name, $email, $password, $role)) {
         echo json_encode(["message" => "Cập nhật thông tin người dùng thành công!"]);
     } else {
         echo json_encode(["message" => "Cập nhật thông tin người dùng thất bại!"]);
     }
 }
 
-function deleteNguoiDung($nguoiDungModel) {
-    $data = json_decode(file_get_contents("php://input"), true);
+// function deleteNguoiDung($nguoidungModel) {
+//     $data = json_decode(file_get_contents("php://input"), true);
 
-    if (!isset($data['id_nguoidung'])) {
-        echo json_encode(["message" => "Thiếu ID người dùng!"]);
-        return;
-    }
+//     if (!isset($data['id_nguoidung'])) {
+//         echo json_encode(["message" => "Thiếu ID người dùng!"]);
+//         return;
+//     }
 
-    $id = $data['id_nguoidung'];
+//     $id = $data['id_nguoidung'];
 
-    if ($nguoiDungModel->deleteNguoiDung($id)) {
-        echo json_encode(["message" => "Xoá người dùng thành công!"]);
+//     if ($nguoidungModel->deleteNguoiDung($id)) {
+//         echo json_encode(["message" => "Xoá người dùng thành công!"]);
+//     } else {
+//         echo json_encode(["message" => "Xoá người dùng thất bại!"]);
+//     }
+// }
+
+function deleteNguoiDung($nguoidungModel) {
+    if ($nguoidungModel->deleteNguoiDung($nguoidungModel)) {
+        echo json_encode(["message" => "Người dùng đã được xóa"]);
     } else {
-        echo json_encode(["message" => "Xoá người dùng thất bại!"]);
+        echo json_encode(["message" => "Xóa người dùng thất bại"]);
     }
 }
+
+
+
 ?>

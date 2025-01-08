@@ -276,7 +276,7 @@
     // Xóa người dùng
     function deleteNguoidung(id) {
         if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
-            fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id=${id}`, {
+            fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             })
