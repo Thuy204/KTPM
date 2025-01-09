@@ -28,29 +28,29 @@ class Docgia {
             return null;
         }
     }
-    public function addDocgia($name, $age, $gender, $phone) {
-        $query = "INSERT INTO docgia (ten_docgia, tuoi_docgia, gioitinh_docgia, sdt_docgia) 
-        VALUES (n'$name', n'$age', n'$gender', n'$phone')";
+    public function addDocgia($name, $age, $gender, $phone, $email) {
+        $query = "INSERT INTO docgia (ten_docgia, tuoi_docgia, gioitinh_docgia, sdt_docgia, email) 
+        VALUES (n'$name', n'$age', n'$gender', n'$phone', '$email')";
         return mysqli_query($this->conn, $query);
     }
-    public function updateDocgia($id, $name, $age, $gender, $phone) {
-        $query = "UPDATE docgia SET ten_docgia=n'$name', tuoi_docgia= n'$age', 
-        gioitinh_docgia= n'$gender', sdt_docgia= n'$phone' WHERE docgia_id=$id";
+    public function updateDocgia($id, $name, $age, $gender, $phone, $email) {
+        $query = "UPDATE docgia SET ten_docgia=n'$name', tuoi_docgia= '$age', 
+        gioitinh_docgia= n'$gender', sdt_docgia= '$phone', email='$email' WHERE docgia_id=$id";
         return mysqli_query($this->conn, $query);
     }
     public function deleteDocgia($id) {
         $query = "DELETE FROM docgia WHERE docgia_id=$id";
         return mysqli_query($this->conn, $query);
     }
-}
-function readAllDocgia($docgiaModel) {
-    $docgia = $docgiaModel->readAllDocgia();
-    if (count($docgia) > 0) {
-        echo json_encode($docgia); // Trả về danh sách độc giả
-    } else {
-        echo json_encode(["message" => "Không tồn tại độc giả nào!"]);
     }
-}
+    function readAllDocgia($docgiaModel) {
+        $docgia = $docgiaModel->readAllDocgia();
+        if (count($docgia) > 0) {
+            echo json_encode($docgia); // Trả về danh sách độc giả
+        } else {
+            echo json_encode(["message" => "Không tồn tại độc giả nào!"]);
+        }
+    }
 
 function readDocgiaById($docgiaModel) {
     $docgia_id = $_GET['id']; // Lấy ID từ URL
@@ -63,7 +63,7 @@ function readDocgiaById($docgiaModel) {
 }
 function addDocgia($docgiaModel) {
     $data = json_decode(file_get_contents("php://input"), true); // Lấy dữ liệu JSON từ Postman
-    if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia']) || !isset($data['sdt_docgia'])) {
+    if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia']) || !isset($data['sdt_docgia']) || !isset($data['email'])) {
         echo json_encode(["message" => "Thiếu dữ liệu!"]);
         return;
     }
@@ -71,10 +71,11 @@ function addDocgia($docgiaModel) {
         $age = $data["tuoi_docgia"];
         $gender = $data["gioitinh_docgia"];
         $phone = $data["sdt_docgia"];
+        $email = $data["email"];
         // $image = $docgiaModel["hinhanh_docgia"];
 
 
-    if ($docgiaModel->addDocgia($name, $age, $gender, $phone)) {
+    if ($docgiaModel->addDocgia($name, $age, $gender, $phone, $email)) {
         echo json_encode(["message" => "Thêm độc giả thành công!"]);
     } else {
         echo json_encode(["message" => "Thêm độc giả thất bại!"]);
@@ -82,7 +83,7 @@ function addDocgia($docgiaModel) {
 }
 function updateDocgia($docgiaModel) {
     $data = json_decode(file_get_contents("php://input"), true); // Lấy dữ liệu JSON từ Postman
-    if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia']) || !isset($data['sdt_docgia'])) {
+    if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia']) || !isset($data['sdt_docgia']) || !isset($data['email'])) {
         echo json_encode(["message" => "Thiếu dữ liệu"]);
         return;
     }
@@ -91,9 +92,9 @@ function updateDocgia($docgiaModel) {
         $age = $data["tuoi_docgia"];
         $gender = $data["gioitinh_docgia"];
         $phone = $data["sdt_docgia"];
-        $image = $data["hinhanh_docgia"];
+        $email = $data["email"];
 
-    if ($docgiaModel->updateDocgia($id,$name, $age, $gender, $phone, $image)) {
+    if ($docgiaModel->updateDocgia($id,$name, $age, $gender, $phone, $email)) {
         echo json_encode(["message" => "Cập nhập thông tin độc giả thành công!"]);
     } else {
         echo json_encode(["message" => "Cập nhật thông tin độc giả thất bại!"]);

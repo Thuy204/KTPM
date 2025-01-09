@@ -17,14 +17,14 @@
             float: right;
             margin: 10px;
         }
-        .img {
+        /* .img {
             width: 5rem;
             height: 6rem;
             border: 1px solid #ccc;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
+        } */
     </style>
 </head>
 <body>
@@ -42,10 +42,10 @@
                     <input type="text" placeholder="Search" name="tim_docgia" class="form-control">
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary" name="timkiem">Search</button>
+                    <button type="submit" class="btn btn-primary" name="timkiem">Tìm kiếm</button>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Thêm mới</button>
                 </div>
             </div>
         </form>
@@ -57,9 +57,9 @@
                     <th>Họ và tên</th>
                     <th>Tuổi</th>
                     <th>Giới tính</th>
-                    <th>SĐT</th>
+                    <th>Số điện thoại</th>
                     <th>Email</th>
-                    <th>Actions</th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody id="docgia_table">
@@ -103,7 +103,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="sdt_docgia">SĐT</label>
+                            <label for="sdt_docgia">Số điện thoại</label>
                             <input type="phone" class="form-control" id="sdt_docgia" required>
                         </div>
                         <div class="form-group">
@@ -128,7 +128,7 @@
                     <div class="modal-body">
                         <!-- <input type="hidden" id="docgia_id"> -->
                         <div class="mb-3">
-                            <label for="docgia_id" class="form-label">ID</label>
+                            <label for="docgia_id" class="form-label">Mã độc giả</label>
                             <input type="text" class="form-control" id="docgia_id" disabled>
                         </div>
                         <div class="mb-3">
@@ -160,7 +160,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Câp nhật</button>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
                     </div>
                 </form>
@@ -205,8 +205,8 @@ function loadDocgia() {
                         <td>${docgia.sdt_docgia}</td>
                         <td>${docgia.email}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="editDocgia(${docgia.docgia_id})">Update</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteDocgia(${docgia.docgia_id})">Delete</button>
+                            <button class="btn btn-warning btn-sm" onclick="editDocgia(${docgia.docgia_id})">Cập nhật</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteDocgia(${docgia.docgia_id})">Xoá</button>
                         </td>
                     `;
                     tableBody.appendChild(row);

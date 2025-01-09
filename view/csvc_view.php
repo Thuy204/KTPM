@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </form>
-            <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addModal">Thêm mới độc giả</button>
+            <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addModal">Thêm mới</button>
         </div>
         <table class="table table-bordered">
             <thead>
@@ -147,7 +147,7 @@
     <script>
 // Hàm load dữ liệu cơ sở vật chất
 function load_csvc() {
-    fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', {
+    fetch('http://localhost/KTPM/controller/qlycsvc_controller.php', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
@@ -203,7 +203,7 @@ function load_csvc() {
         tinhtrang_csvc: document.querySelector('input[name="tinhtrang_csvc"]:checked')?.value
     };
 
-    fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', {
+    fetch('http://localhost/KTPM/controller/qlycsvc_controller.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -224,7 +224,7 @@ function load_csvc() {
 
 // Hàm chỉnh sửa cơ sở vật chất
 function edit_csvc(csvc_id) {
-    fetch(`http://localhost/QLTV/controller/qlycsvc_controller.php?id=${csvc_id}`) // Sửa URL
+    fetch(`http://localhost/KTPM/controller/qlycsvc_controller.php?id=${csvc_id}`) // Sửa URL
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Lỗi HTTP: ${response.status}`);
@@ -258,7 +258,7 @@ function edit_csvc(csvc_id) {
         tinhtrang_csvc: document.querySelector('input[name="edit_tinhtrang_csvc"]:checked').value
     };
 
-    fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', { // Thêm action=update
+    fetch('http://localhost/KTPM/controller/qlycsvc_controller.php', { // Thêm action=update
         method: 'PUT', // Dùng POST nếu PUT không được hỗ trợ
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -286,7 +286,7 @@ function edit_csvc(csvc_id) {
 
 function delete_csvc(csvc_id) {
     if (confirm("Bạn có chắc chắn muốn xóa cơ sở vật chất này?")) {
-        fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', {
+        fetch('http://localhost/KTPM/controller/qlycsvc_controller.php', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',  // Đảm bảo rằng headers là json
