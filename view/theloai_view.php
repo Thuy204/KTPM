@@ -164,7 +164,7 @@
     });
 
     function loadTheloai() {
-        fetch('http://localhost/QLTV/controller/qlytheloai_controller.php', {
+        fetch('http://localhost/KTPM/controller/qlytheloai_controller.php', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
@@ -209,7 +209,7 @@
             return;
         }
 
-        fetch('http://localhost/QLTV/controller/qlytheloai_controller.php', {
+        fetch('http://localhost/KTPM/controller/qlytheloai_controller.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
@@ -234,7 +234,7 @@
 
     function deleteTheloai(theloai_id) {
         if (confirm("Bạn có chắc chắn muốn xóa thể loại này?")) {
-            fetch(`http://localhost/QLTV/controller/qlytheloai_controller.php?theloai_id=${theloai_id}`, {
+            fetch(`http://localhost/KTPM/controller/qlytheloai_controller.php?theloai_id=${theloai_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',  // Đảm bảo rằng headers là json
@@ -264,7 +264,7 @@
 
 
     function editTheloai(theloai_id) {
-        fetch(`http://localhost/QLTV/controller/qlytheloai_controller.php?id=${theloai_id}`)
+        fetch(`http://localhost/KTPM/controller/qlytheloai_controller.php?id=${theloai_id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Lỗi HTTP: ${response.status}`);
@@ -297,7 +297,7 @@
             thongtin_theloai: document.getElementById('edit_thongtin_theloai').value
         };
 
-        fetch('http://localhost/QLTV/controller/qlytheloai_controller.php', {
+        fetch('http://localhost/KTPM/controller/qlytheloai_controller.php', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json' 

@@ -14,7 +14,7 @@
         if($result){
           echo "<script type='text/javascript'>
                         alert('Chúc mừng bạn đã đăng ký thành công!');
-                        window.location.href='login.php';
+                        window.location.href='index.php';
                       </script>";
         }
       }
@@ -74,7 +74,7 @@
           
             <!-- Register buttons -->
             <div class="text-center">
-              <p>Bạn đã có tài khoản? <a href="login.php">Đăng nhập</a></p>
+              <p>Bạn đã có tài khoản? <a href="index.php">Đăng nhập</a></p>
             </div>
           </form>
         </div>

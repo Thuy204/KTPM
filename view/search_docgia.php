@@ -17,6 +17,7 @@
             <th>Age</th>
             <th>Gender</th>
             <th>SĐT</th>
+            <th>Email</th>
         </thead>
         <tbody>
 <?php
@@ -35,6 +36,7 @@
                         <td>".$row["tuoi_docgia"]."</td>
                         <td>".($row["gioitinh_docgia"] == 1 ? 'Nam' : 'Nữ')."</td>
                         <td>".$row["sdt_docgia"]."</td>
+                        <td>".$row["email"]."</td>
                     </tr>";
         }
         echo "</tbody>
@@ -42,5 +44,5 @@
 
         }
 ?>
-<a href="index.php" class="btn btn-warning ">Quay lại</a>
+<a href="docgia_view.php" class="btn btn-warning ">Quay lại</a>
 </div>

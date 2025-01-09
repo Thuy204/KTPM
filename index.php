@@ -16,7 +16,7 @@
         else{
           echo "<script type='text/javascript'>
                         alert('Email hoặc mật khẩu không đúng. Vui lòng nhập lại.');
-                        window.location.href='login.php';
+                        window.location.href='index.php';
                       </script>";
         }
       }
@@ -32,6 +32,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
     <link rel="stylesheet" href="frontend/style.css">
+    <style>
+      body{
+          margin: 0px;
+          padding: 0px;
+          background-image: url('img/background/bg.jpg'); 
+          background-size: cover; 
+          background-position: center; 
+        }
+        
+    </style>
 </head>
 <body>
 <div class="layout">
