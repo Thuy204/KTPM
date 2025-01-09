@@ -84,29 +84,33 @@
                 </div>
                 <div class="modal-body">
                     <form id="addForm">
+                    <div class="form-group">
+                            <label for="sach_id">ID sách</label>
+                            <input type="text" class="form-control" id="sach_id" required>
+                        </div>
                         <div class="form-group">
                             <label for="ten_sach">Tên sách</label>
                             <input type="text" class="form-control" id="ten_sach" required>
                         </div>
                         <div class="form-group">
-                            <label for="tacgia_id">Tác giả</label>
+                            <label for="tacgia_id">ID Tác giả</label>
                             <input type="text" class="form-control" id="tacgia_id" required>
                         </div>
                         <div class="form-group">
-                            <label for="theloai_id">Thể loại</label>
+                            <label for="theloai_id">ID Thể loại</label>
                             <input type="text" class="form-control" id="theloai_id" required>
                         </div>
                         <div class="form-group">
-                            <label for="nxb_id">NXB</label>
+                            <label for="nxb_id">ID NXB</label>
                             <input type="text" class="form-control" id="nxb_id" required>
                         </div>
                         <div class="form-group">
-                            <label for="mota_sach">Số lượng tồn kho</label>
-                            <input type="number" class="form-control" id="mota_sach" required>
+                            <label for="mota_sach">Mô tả</label>
+                            <input type="text" class="form-control" id="mota_sach" required>
                         </div>
                         <div class="form-group">
-                            <label for="soluong_tonkho_tonkho">Số lượng tồn kho</label>
-                            <input type="number" class="form-control" id="soluong_tonkho_tonkho" required>
+                            <label for="soluong_tonkho">Số lượng tồn kho</label>
+                            <input type="number" class="form-control" id="soluong_tonkho" required>
                         </div>
                 
                         <button type="submit" class="btn btn-primary">Thêm sách</button>
@@ -147,12 +151,12 @@
                             <input type="text" class="form-control" id="edit_nxb_id" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_mota_sach" class="form-label">Số lượng tồn kho</label>
-                            <input type="number" class="form-control" id="edit_mota_sach" required>
+                            <label for="edit_mota_sach" class="form-label">Mô tả</label>
+                            <input type="text" class="form-control" id="edit_mota_sach" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_soluong_tonkho_tonkho" class="form-label">Số lượng tồn kho</label>
-                            <input type="number" class="form-control" id="edit_soluong_tonkho_tonkho" required>
+                            <label for="edit_soluong_tonkho" class="form-label">Số lượng tồn kho</label>
+                            <input type="number" class="form-control" id="edit_soluong_tonkho" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -209,6 +213,7 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
 
     // Tạo đối tượng dữ liệu
     const data = {
+        sach_id: document.getElementById('sach_id').value,
         ten_sach: document.getElementById('ten_sach').value,
         tacgia: document.getElementById('tacgia_id').value,
         nxb_id: document.getElementById('nxb_id').value,
@@ -218,11 +223,10 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
     };
 
     // Kiểm tra xem tất cả các trường có dữ liệu
-    if (!data.ten_sach || !data.tacgia_id || !data.nxb_id || !data.theloai_id || !data.mota_sach || !data.soluong_tonkho) {
+    if (!data.sach_id || !data.ten_sach || !data.tacgia_id || !data.nxb_id || !data.theloai_id || !data.mota_sach || !data.soluong_tonkho) {
         alert('Vui lòng điền đầy đủ thông tin!');
         return;
     }
-
     // Gửi dữ liệu đến server qua fetch API
     fetch('http://localhost/KTPM/controller/qlysach_controller.php', {
         method: 'POST',
@@ -236,6 +240,7 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
         alert(data.message); // Hiển thị thông báo từ server
         $('#addModal').modal('hide'); // Đóng modal
         // Reset các trường nhập liệu
+        document.getElementById('sach_id').value = '';
         document.getElementById('ten_sach').value = '';
         document.getElementById('tacgia_id').value = '';
         document.getElementById('nxb_id').value = '';
@@ -261,7 +266,8 @@ function editSach(sach_id) {
         })
         .then(sach => {
             if (sach) {
-                document.getElementById('edit_ten').value = sach.ten_sach;
+                document.getElementById('edit_sach_id').value = sach.sach_id;
+                document.getElementById('edit_ten_sach').value = sach.ten_sach;
                 document.getElementById('edit_tacgia_id').value = sach.tacgia_id;
                 document.getElementById('edit_nxb_id').value = sach.nxb_id;
                 document.getElementById('edit_theloai_id').value = sach.theloai_id;
@@ -286,7 +292,7 @@ document.getElementById('editForm').addEventListener('submit', function(event) {
     // Tạo đối tượng dữ liệu
     const data = {
         sach_id: document.getElementById('sach_id').value,
-        ten_sach: document.getElementById('edit_ten').value,
+        ten_sach: document.getElementById('edit_ten_sach').value,
         tacgia_id: document.getElementById('edit_tacgia_id').value,
         nxb_id: document.getElementById('edit_nxb_id').value,
         theloai_id: document.getElementById('edit_theloai_id').value,
@@ -308,7 +314,7 @@ document.getElementById('editForm').addEventListener('submit', function(event) {
         $('#editModal').modal('hide'); // Đóng modal
         // Reset các trường nhập liệu
         document.getElementById('sach_id').value = '';
-        document.getElementById('edit_ten').value = '';
+        document.getElementById('edit_ten_sach').value = '';
         document.getElementById('edit_tacgia_id').value = '';
         document.getElementById('edit_nxb_id').value = '';
         document.getElementById('edit_theloai_id').value = '';

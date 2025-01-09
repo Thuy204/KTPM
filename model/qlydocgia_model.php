@@ -1,82 +1,86 @@
 <?php
-class Sach {
+class Docgia {
     private $conn;
-    private $table = "sach";
+    private $table = "docgia";
 
     public function __construct($db) {
         $this->conn = $db;
     }
-
-    // Lấy danh sách tất cả sách
-    public function readAllSach() {
-        $query = "SELECT * FROM " . $this->table;
+    public function readAllDocgia() {
+        $query = "SELECT * FROM docgia";
         $result = mysqli_query($this->conn, $query);
 
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
         if ($result) {
-            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về mảng liên kết
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
         } else {
             return [];
         }
     }
-
-    // Lấy thông tin sách theo ID
-    public function readSachById($id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE sach_id = $id";
+    public function readDocgiaById($id) {
+        $query = "SELECT * FROM docgia WHERE docgia_id = $id";
         $result = mysqli_query($this->conn, $query);
 
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
         if ($result) {
-            return mysqli_fetch_assoc($result); // Trả về một mảng liên kết
+            return mysqli_fetch_assoc($result); // Trả về kết quả dạng mảng kết hợp
         } else {
             return null;
         }
     }
-
-    // Thêm sách mới
-    public function addSach($tenSach, $tacgiaId, $theloaiId, $nxbId, $mota, $soluong) {
-        $query = "INSERT INTO " . $this->table . " 
-            (ten_sach, tacgia_id, theloai_id, nxb_id, mota_sach, soluong_tonkho) 
-            VALUES (n'$tenSach', $tacgiaId, $theloaiId, $nxbId, n'$mota', $soluong)";
-
+    public function addDocgia($name, $age, $gender, $phone, $email) {
+        $query = "INSERT INTO docgia (ten_docgia, tuoi_docgia, gioitinh_docgia, sdt_docgia, email) 
+        VALUES (n'$name', n'$age', n'$gender', n'$phone', '$email')";
         return mysqli_query($this->conn, $query);
     }
-
-    // Cập nhật thông tin sách
-    public function updateSach($id, $tenSach, $tacgiaId, $theloaiId, $nxbId, $mota, $soluong) {
-        $query = "UPDATE " . $this->table . " 
-            SET ten_sach = n'$tenSach', tacgia_id = $tacgiaId, theloai_id = $theloaiId, 
-                nxb_id = $nxbId, mota_sach = n'$mota', soluong_tonkho = $soluong 
-            WHERE sach_id = $id";
-
+    public function updateDocgia($id, $name, $age, $gender, $phone, $email) {
+        $query = "UPDATE docgia SET ten_docgia=n'$name', tuoi_docgia= '$age', 
+        gioitinh_docgia= n'$gender', sdt_docgia= '$phone', email='$email' WHERE docgia_id=$id";
         return mysqli_query($this->conn, $query);
     }
-
-    // Xóa sách theo ID
-    public function deleteSach($id) {
-        $query = "DELETE FROM " . $this->table . " WHERE sach_id = $id";
+    public function deleteDocgia($id) {
+        $query = "DELETE FROM docgia WHERE docgia_id=$id";
         return mysqli_query($this->conn, $query);
+    }
+    }
+    function readAllDocgia($docgiaModel) {
+        $docgia = $docgiaModel->readAllDocgia();
+        if (count($docgia) > 0) {
+            echo json_encode($docgia); // Trả về danh sách độc giả
+        } else {
+            echo json_encode(["message" => "Không tồn tại độc giả nào!"]);
+        }
+    }
+
+function readDocgiaById($docgiaModel) {
+    $docgia_id = $_GET['id']; // Lấy ID từ URL
+    $docgia = $docgiaModel->readDocgiaById($docgia_id);
+    if ($docgia) {
+        echo json_encode($docgia); // Trả về dữ liệu độc giả theo ID
+    } else {
+        echo json_encode(["message" => "Không tìm thấy độc giả nào với ID: $docgia_id"]);
     }
 }
-function addSach($sachModel) {
+function addDocgia($docgiaModel) {
     $data = json_decode(file_get_contents("php://input"), true); // Lấy dữ liệu JSON từ Postman
-    if (!isset($data['ten_sach']) || !isset($data['tacgia_id']) || !isset($data['theloai_id']) || !isset($data['nxb_id']) || !isset($data['mota_sach']) || !isset($data['soluong_tonkho'])) {
+    if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia']) || !isset($data['sdt_docgia']) || !isset($data['email'])) {
         echo json_encode(["message" => "Thiếu dữ liệu!"]);
         return;
     }
+        $name = $data["ten_docgia"];
+        $age = $data["tuoi_docgia"];
+        $gender = $data["gioitinh_docgia"];
+        $phone = $data["sdt_docgia"];
+        $email = $data["email"];
+        // $image = $docgiaModel["hinhanh_docgia"];
 
-    $tenSach = $data["ten_sach"];
-    $tacgiaId = $data["tacgia_id"];
-    $theloaiId = $data["theloai_id"];
-    $nxbId = $data["nxb_id"];
-    $mota = $data["mota_sach"];
-    $soluong = $data["soluong_tonkho"];
 
-    if ($sachModel->addSach($tenSach, $tacgiaId, $theloaiId, $nxbId, $mota, $soluong)) {
-        echo json_encode(["message" => "Thêm sách thành công!"]);
+    if ($docgiaModel->addDocgia($name, $age, $gender, $phone, $email)) {
+        echo json_encode(["message" => "Thêm độc giả thành công!"]);
     } else {
-        echo json_encode(["message" => "Thêm sách thất bại!"]);
+        echo json_encode(["message" => "Thêm độc giả thất bại!"]);
     }
 }
-
 function updateDocgia($docgiaModel) {
     $data = json_decode(file_get_contents("php://input"), true); // Lấy dữ liệu JSON từ Postman
     if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia']) || !isset($data['sdt_docgia']) || !isset($data['email'])) {
