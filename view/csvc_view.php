@@ -3,30 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <title>Quản lý độc giả</title>
-    <style>
-        .box h2 {
-            float: left; 
-            margin: 10px; 
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-        .img {
-            width: 5rem;
-            height: 6rem;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+        <title>Quản lý độc giả</title>
+        <style>
+            .box h2 {
+                float: left; 
+                margin: 10px; 
+            }
+            .box form {
+                float: right;
+                margin: 10px;
+            }
+            .img {
+                width: 5rem;
+                height: 6rem;
+                border: 1px solid #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
 </head>
 <body>
     <?php
@@ -47,7 +46,7 @@
                     </div>
                 </div>
             </form>
-            <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addModal">Thêm mới</button>
+            <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addModal">Thêm mới độc giả</button>
         </div>
         <table class="table table-bordered">
             <thead>
@@ -143,11 +142,13 @@
             </div>
         </div>
     </div>
+</body>
+</html>
 
     <script>
 // Hàm load dữ liệu cơ sở vật chất
 function load_csvc() {
-    fetch('http://localhost/KTPM/controller/qlycsvc_controller.php', {
+    fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
@@ -203,19 +204,27 @@ function load_csvc() {
         tinhtrang_csvc: document.querySelector('input[name="tinhtrang_csvc"]:checked')?.value
     };
 
-    fetch('http://localhost/KTPM/controller/qlycsvc_controller.php', {
+    fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === 201) {
-            $('#addModal').modal('hide');
-            load_csvc(); // Reload dữ liệu sau khi thêm thành công
-        } else {
-            alert(data.message);
-        }
+        // if (data.status === 201) {
+        //     $('#addModal').modal('hide');
+        //     load_csvc(); // Reload dữ liệu sau khi thêm thành công
+        // } else {
+        //     alert(data.message);
+        // }
+
+        alert(data.message); // Hiển thị thông báo từ server
+        $('#addModal').modal('hide'); // Đóng modal
+        // Reset các trường nhập liệu
+        document.getElementById('ten_csvc').value = '';
+        document.getElementById('soluong_csvc').value = '';
+        document.querySelector('input[name="tinhtrang_csvc"]:checked').checked = false; // Đặt lại radio button
+        load_csvc();
     })
     .catch(error => {
         console.error('Lỗi:', error);
@@ -224,7 +233,7 @@ function load_csvc() {
 
 // Hàm chỉnh sửa cơ sở vật chất
 function edit_csvc(csvc_id) {
-    fetch(`http://localhost/KTPM/controller/qlycsvc_controller.php?id=${csvc_id}`) // Sửa URL
+    fetch(`http://localhost/QLTV/controller/qlycsvc_controller.php?id=${csvc_id}`) // Sửa URL
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Lỗi HTTP: ${response.status}`);
@@ -258,8 +267,8 @@ function edit_csvc(csvc_id) {
         tinhtrang_csvc: document.querySelector('input[name="edit_tinhtrang_csvc"]:checked').value
     };
 
-    fetch('http://localhost/KTPM/controller/qlycsvc_controller.php', { // Thêm action=update
-        method: 'PUT', // Dùng POST nếu PUT không được hỗ trợ
+    fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', { // Thêm action=update
+        method: 'PUT', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
     })
@@ -270,12 +279,14 @@ function edit_csvc(csvc_id) {
         return response.json();
     })
     .then(data => {
-        if (data.status === 200) {
-            $('#editModal').modal('hide');
-            load_csvc(); // Cập nhật lại bảng
-        } else {
-            alert(data.message || "Có lỗi xảy ra!");
-        }
+        alert(data.message); // Hiển thị thông báo từ server
+        $('#editModal').modal('hide'); // Đóng modal
+        // Reset các trường nhập liệu
+        document.getElementById('edit_csvc_id').value-'';
+        document.getElementById('edit_ten_csvc').value = '';
+        document.getElementById('edit_soluong_csvc').value = '';
+        document.querySelector('input[name="edit_tinhtrang_csvc"]:checked').checked = false; // Đặt lại radio button
+        load_csvc();
     })
     .catch(error => {
         console.error('Lỗi:', error);
@@ -286,7 +297,7 @@ function edit_csvc(csvc_id) {
 
 function delete_csvc(csvc_id) {
     if (confirm("Bạn có chắc chắn muốn xóa cơ sở vật chất này?")) {
-        fetch('http://localhost/KTPM/controller/qlycsvc_controller.php', {
+        fetch('http://localhost/QLTV/controller/qlycsvc_controller.php', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',  // Đảm bảo rằng headers là json
@@ -313,5 +324,3 @@ function delete_csvc(csvc_id) {
 window.onload = load_csvc;
 </script>
 
-</body>
-</html>
