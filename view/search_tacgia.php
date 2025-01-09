@@ -18,7 +18,6 @@ if (isset($_POST['timkiem'])) {
                 <th>Tên</th>
                 <th>Giới tính</th>
                 <th>Thông tin</th>
-                <th>Hình ảnh</th>
             </tr>
         </thead>
         <tbody>

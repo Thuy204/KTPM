@@ -11,61 +11,61 @@
 </head>
 <body>
     <section class="head">
-    <div class="nav">
-        <nav class="navbar navbar-expand-sm bg-dark w-100">
-              <div class="container">
-              <a class="navbar-brand" href="#">
-                  <img src="../img/background/logo.png" alt="Logo" style="width:200px; border-radius: 5px;">
-              </a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link text-white" href="../view/index.php">Trang chủ</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Tin tức
+        <div class="nav">
+            <nav class="navbar navbar-expand-sm bg-dark w-100">
+                <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <img src="../img/background/logo.png" alt="Logo" style="width:200px; border-radius: 5px;">
                     </a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Thông báo mới</a></li>
-                      <li><a class="dropdown-item" href="#">Hoạt động sinh viên</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Khác</a></li>
-                    </ul>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Quản lý
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="../view/nguoidung_view.php">Tài Khoản</a></li>
-                      <li><a class="dropdown-item" href="../view/sach_view.php">Sách</a></li>
-                      <li><a class="dropdown-item" href="../view/docgia_view.php">Độc giả</a></li>
-                      <li><a class="dropdown-item" href="../view/tacgia_view.php">Tác giả</a></li>
-                      <li><a class="dropdown-item" href="../view/nxb_view.php">Nhà xuất bản</a></li>
-                      <li><a class="dropdown-item" href="../view/theloai_view.php">Thể loại</a></li>
-                      <li><a class="dropdown-item" href="../view/csvc_view.php">Cơ sở vật chất</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="../quanly_muontra/muontra.php">Mượn trả</a></li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-white" aria-disabled="true">Hỗ Trợ</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-white " type="submit" name="dangxuat" href="../logout.php">Đăng xuất</a>
-                  </li>
-                </ul>
-              </div>
-              </div>
-          </nav>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="../frontend/trangchu.php">Trang chủ</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tin tức
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Thông báo mới</a></li>
+                                    <li><a class="dropdown-item" href="#">Hoạt động sinh viên</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Khác</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Quản lý
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="../view/nguoidung_view.php">Tài Khoản</a></li>
+                                    <li><a class="dropdown-item" href="../view/sach_view.php">Sách</a></li>
+                                    <li><a class="dropdown-item" href="../view/docgia_view.php">Độc giả</a></li>
+                                    <li><a class="dropdown-item" href="../view/tacgia_view.php">Tác giả</a></li>
+                                    <li><a class="dropdown-item" href="../view/nxb_view.php">Nhà xuất bản</a></li>
+                                    <li><a class="dropdown-item" href="../view/theloai_view.php">Thể loại</a></li>
+                                    <li><a class="dropdown-item" href="../view/csvc_view.php">Cơ sở vật chất</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="../view/muontra_view.php">Mượn trả</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" aria-disabled="true">Hỗ Trợ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="../logout.php">Đăng xuất</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
         <div class="d-flex justify-content-center my-3">
-          <img src="../img/nguoidung/UttBanner.png" alt="Vibrant Cityscape at Night" class="img-fluid" />
-         </div>
-        </section>
+            <img src="../img/nguoidung/UttBanner.png" alt="Vibrant Cityscape at Night" class="img-fluid" />
+        </div>
+    </section>
 </body>
 </html>

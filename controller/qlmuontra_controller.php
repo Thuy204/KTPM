@@ -78,7 +78,7 @@ switch ($request_method) {
                     http_response_code(404);
                     $data = [
                         'status' => 404,
-                        'message' => 'Sách không tồn tại!',
+                        'message' => 'Mã sách không tồn tại!',
                     ];
                     echo json_encode($data);
                     return; // Sử dụng return thay vì break
