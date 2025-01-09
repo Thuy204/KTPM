@@ -122,7 +122,7 @@
         });
         // Hàm load dữ liệu nhà xuất bản
         function loadNhaxuatban() {
-            fetch('http://localhost/QLTV/controller/qlynxb_controller.php', {
+            fetch('http://localhost/KTPM/controller/qlynxb_controller.php', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -163,7 +163,7 @@
                 thongtin_nxb: document.getElementById('thongtin_nxb').value,
             };
 
-            fetch('http://localhost/QLTV/controller/qlynxb_controller.php', {
+            fetch('http://localhost/KTPM/controller/qlynxb_controller.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -186,7 +186,7 @@
 
         // Hàm chỉnh sửa nhà xuất bản
         function editNhaxuatban(nxb_id) {
-            fetch(`http://localhost/QLTV/controller/qlynxb_controller.php?id=${nxb_id}`)
+            fetch(`http://localhost/KTPM/controller/qlynxb_controller.php?id=${nxb_id}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`Lỗi HTTP: ${response.status}`);
@@ -214,7 +214,7 @@
                 thongtin_nxb: document.getElementById('edit_thongtin_nxb').value,
             };
 
-            fetch('http://localhost/QLTV/controller/qlynxb_controller.php', {
+            fetch('http://localhost/KTPM/controller/qlynxb_controller.php', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -235,7 +235,7 @@
 
         function deleteNhaxuatban(nxb_id) {
             if (confirm("Bạn có chắc chắn muốn xóa nhà xuất bản này?")) {
-                fetch(`http://localhost/QLTV/controller/qlynxb_controller.php?nxb_id=${nxb_id}`, {
+                fetch(`http://localhost/KTPM/controller/qlynxb_controller.php?nxb_id=${nxb_id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

@@ -10,7 +10,7 @@
           $_SESSION['login']= $email;
           echo "<script type='text/javascript'>
                         alert('Đăng nhập thành công!');
-                        window.location.href='frontend/index.php';
+                        window.location.href='frontend/trangchu.php';
                       </script>";
         }
         else{
@@ -31,16 +31,7 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
-    <link rel="stylesheet" href="view/style.css">
-    <style>
-      body{
-          margin: 0px;
-          padding: 0px;
-          background-image: url('img/background/bg.jpg'); 
-          background-size: cover; 
-          background-position: center; 
-      }    
-    </style>
+    <link rel="stylesheet" href="frontend/style.css">
 </head>
 <body>
 <div class="layout">

@@ -22,7 +22,7 @@ switch ($request_method) {
         case 'POST':
             $data = json_decode(file_get_contents("php://input"), true);
 
-            if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia'])|| !isset($data['sdt_docgia'])) {
+            if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia'])|| !isset($data['sdt_docgia']) || !isset($data['email'])) {
                 http_response_code(422);
                 $data = [
                     'status' => 422,
@@ -35,7 +35,7 @@ switch ($request_method) {
                 $age = $data['tuoi_docgia'];
                 $gender = $data['gioitinh_docgia'];
                 $phone = $data['sdt_docgia'];
-                
+                $email = $data["email"];
                 // Kiểm tra giá trị của gioitinh_docgia
                 if ($gender !== "0" && $gender !== "1") {
                     $data = [
@@ -45,25 +45,8 @@ switch ($request_method) {
                     echo json_encode($data);
                     exit;
                 }
-        
-                // Xử lý upload hình ảnh
-                // $img = null; // Gán mặc định là null
-                // if (isset($_FILES['hinhanh_docgia']) && $_FILES['hinhanh_docgia']['error'] == 0) {
-                //     $target_dir = "../img/docgia/";
-                //     $target_file = $target_dir . basename($_FILES["hinhanh_docgia"]["name"]);
-                //     if (move_uploaded_file($_FILES["hinhanh_docgia"]["tmp_name"], $target_file)) {
-                //         $hinhanh_docgia = basename($_FILES["hinhanh_docgia"]["name"]);
-                //     } else {
-                //         $data = [
-                //             'status' => 500,
-                //             'message' => 'Lỗi khi tải lên hình ảnh',
-                //         ];
-                //         echo json_encode($data);
-                //         exit;
-                //     }
-                // }   
             // Nếu tất cả dữ liệu hợp lệ, thêm cơ sở vật chất vào cơ sở dữ liệu
-        if ($docgiaModel->addDocgia($name, $age, $gender, $phone)) {
+        if ($docgiaModel->addDocgia($name, $age, $gender, $phone, $email)) {
             http_response_code(200);
             $data = [
                 'status' => 200,
@@ -85,7 +68,7 @@ switch ($request_method) {
             $data = json_decode(file_get_contents("php://input"), true);
         
             // Kiểm tra xem có đủ dữ liệu đầu vào không
-            if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia'])|| !isset($data['sdt_docgia'])) {
+            if (!isset($data['ten_docgia']) || !isset($data['tuoi_docgia']) || !isset($data['gioitinh_docgia'])|| !isset($data['sdt_docgia']) || !isset($data['email'])) {
                 http_response_code(422);
                 $data = [
                     'status' => 422,
@@ -99,7 +82,7 @@ switch ($request_method) {
                 $age = $data['tuoi_docgia'];
                 $gender = $data['gioitinh_docgia'];
                 $phone = $data['sdt_docgia'];
-
+                $email = $data["email"];
             // Kiểm tra giá trị của gioitinh_docgia
             if ($gender !== "0" && $gender !== "1") {
                 $data = [
@@ -110,7 +93,7 @@ switch ($request_method) {
                 exit;
             }
             
-            if ($docgiaModel->updateDocgia($id, $name, $age, $gender, $phone)) {
+            if ($docgiaModel->updateDocgia($id, $name, $age, $gender, $phone, $email)) {
                 http_response_code(200);
                 $data = [
                     'status' => 200,
