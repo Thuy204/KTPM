@@ -14,7 +14,10 @@ switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
             readMuontraById($muontraModel); // Lấy độc giả theo ID
-        } else {
+        } else if (isset($_GET['timkiem'])) {
+            searchMuontra($muontraModel); // Lấy độc giả theo ID
+        }
+        else{
             readAllMuontra($muontraModel); // Lấy tất cả độc giả 
         }
         break;
@@ -81,7 +84,7 @@ switch ($request_method) {
                         'message' => 'Mã sách không tồn tại!',
                     ];
                     echo json_encode($data);
-                    return; // Sử dụng return thay vì break
+                    return;
                 }
 
                 if ($so_luong_ton == 0) {
@@ -136,6 +139,15 @@ switch ($request_method) {
                 ];
                 echo json_encode($data);
                 break;
+            }
+            if($soluong<=0){
+                http_response_code(500);
+                $data = [
+                    'status' => 404,
+                    'message' => 'Số lượng mượn phải lớn hơn không!',
+                ];
+                echo json_encode($data);
+                return;
             }
             
             // Nếu tất cả dữ liệu hợp lệ, thêm cơ sở vật chất vào cơ sở dữ liệu
