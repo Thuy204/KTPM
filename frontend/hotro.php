@@ -25,6 +25,18 @@
         border-radius: 5px;
         background-color: #f9f9f9;
     }
+    .box {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 1000;
+        padding: 10px 0;
+    }
+    .table-container {
+        max-height: 400px; /* Chiều cao tối đa của bảng */
+        overflow-y: auto;
+        margin-top: 20px;
+    }
 </style>
 </head>
 <body>
@@ -37,7 +49,7 @@
             <h2>Hỗ Trợ Sinh Viên</h2>
         </div>
 
-
+        <div class="table-container">
         <div id="student-support">
             <div class="support">
                 <h4>Hỗ trợ 1: Tư vấn tâm lý</h4>
@@ -56,6 +68,7 @@
                 <p>Thư viện tổ chức các buổi hướng dẫn sử dụng tài liệu và kỹ năng học tập vào thứ Tư hàng tuần.</p>
                 <small>Thông báo: 08/01/2025</small>
             </div>
+        </div>
         </div>
     </div>
 </body>

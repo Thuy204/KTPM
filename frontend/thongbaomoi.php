@@ -33,6 +33,19 @@
         border-radius: 5px;
         background-color: #f9f9f9;
     }
+
+    .box {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 1000;
+        padding: 10px 0;
+    }
+    .table-container {
+        max-height: 400px; /* Chiều cao tối đa của bảng */
+        overflow-y: auto;
+        margin-top: 20px;
+    }
 </style>
 </head>
 <body>
@@ -44,7 +57,7 @@
             <h2>Thông Báo Mới</h2>
         </div>
 
-
+            <div class="table-container">
         <div id="notification-list">
             <div class="notification">
                 <h4>Thông báo 1</h4>
@@ -62,6 +75,7 @@
                 <h4>Thông báo 3</h4>
                 <p>Thư viện sẽ tạm đóng cửa để bảo trì vào ngày 12/01/2025.</p>
                 <small>Ngày đăng: 08/01/2025</small>
+                </div>
             </div>
         </div>
     </div>
