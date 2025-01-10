@@ -55,6 +55,28 @@ class Sach {
         $query = "DELETE FROM " . $this->table . " WHERE sach_id = $sachId";
         return mysqli_query($this->conn, $query);
     }
+    public function searchSach($timkiem) {
+        // Truy vấn với phép JOIN để lấy thông tin từ các bảng liên quan
+        $query = "SELECT sach.sach_id, sach.ten_sach, sach.mota_sach, sach.soluong_tonkho, 
+                         sach.tacgia_id,sach.theloai_id, sach.nxb_id
+                  FROM sach
+                  LEFT JOIN tacgia ON sach.tacgia_id = tacgia.tacgia_id
+                  LEFT JOIN theloai ON sach.theloai_id = theloai.theloai_id
+                  LEFT JOIN nhaxuatban ON sach.nxb_id = nhaxuatban.nxb_id
+                  WHERE sach.sach_id = '$timkiem' OR sach.ten_sach LIKE n'%$timkiem%'";
+    
+        // Thực thi truy vấn
+        $result = mysqli_query($this->conn, $query);
+    
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về mảng liên kết
+        } else {
+            return []; // Nếu không có kết quả, trả về mảng rỗng
+        }
+    }
+    
+    
 }
 
 // Các hàm xử lý dữ liệu
@@ -140,4 +162,14 @@ function deleteSach($sachModel) {
         echo json_encode(["message" => "Xóa sách thất bại!"]);
     }
 }
+function searchSach($sachModel) {
+    $timkiem = $_GET['timkiem']; // Lấy giá trị tìm kiếm từ URL
+    $sach = $sachModel->searchSach($timkiem);
+    if ($sach) {
+        echo json_encode($sach); // Trả về danh sách sách tìm được
+    } else {
+        echo json_encode(["message" => "Không tìm thấy sách nào!"]);
+    }
+}
+
 ?>

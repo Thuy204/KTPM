@@ -38,19 +38,17 @@
     <div class="container">
         <div class="box">
             <h2>DANH SÁCH SÁCH</h2>
-            <form action="search_sach.php" method="POST">
                 <div class="row align-items-end">
                     <div class="col">
                         <input type="text" placeholder="Tìm kiếm sách" name="tim_sach" class="form-control">
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary" name="timkiem">Tìm kiếm</button>
+                    <button type="submit" class="btn btn-primary" onclick="searchSach()">Tìm kiếm</button>
                     </div>
                     <div class="col-auto">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Thêm mới</button>
                     </div>
                 </div>
-            </form>
         </div>
 
         <table class="table table-striped table-hover">
@@ -355,6 +353,51 @@ function deleteSach(sach_id) {
             alert("Đã xảy ra lỗi khi cố gắng xóa!");
         });
     }
+}
+// Hàm tìm kiếm sách
+function searchSach() {
+    const giatri_tim = document.querySelector('input[name="tim_sach"]').value; // Lấy giá trị từ ô tìm kiếm
+    fetch(`http://localhost/KTPM/controller/qlysach_controller.php?timkiem=${encodeURIComponent(giatri_tim)}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        const tableBody = document.getElementById('sach_table');
+        tableBody.innerHTML = ''; // Xoá dữ liệu cũ trong bảng
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="8" class="text-center">Không tìm thấy kết quả.</td></tr>';
+        } else {
+            data.forEach(sach => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${sach.sach_id}</td>
+                    <td>${sach.ten_sach}</td>
+                    <td>${sach.tacgia_id}</td>
+                    <td>${sach.nxb_id}</td>
+                    <td>${sach.theloai_id}</td>
+                    <td>${sach.mota_sach}</td>
+                    <td>${sach.soluong_tonkho}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editSach(${sach.sach_id})">Cập nhật</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteSach(${sach.sach_id})">Xoá</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+        alert('Đã xảy ra lỗi khi tìm kiếm: ' + error.message);
+    });
 }
 
 // Gọi hàm loadSach khi trang được tải
