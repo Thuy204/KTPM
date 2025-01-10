@@ -48,8 +48,8 @@ class Nhaxuatban {
     }
 
        // Xóa nhà xuất bản
-    public function deleteNhaxuatban($id) {
-        $query = "DELETE FROM nhaxuatban WHERE nxb_id = $id";
+       public function deleteNhaxuatban($id) {
+        $query = "DELETE FROM nhaxuatban WHERE nxb_id=$id";
         return mysqli_query($this->conn, $query);
     }
 
@@ -90,7 +90,7 @@ function readNhaxuatbanById($nxbModel) {
 function addNhaxuatban($nxbModel) {
     $data = json_decode(file_get_contents("php://input"), true); // Lấy dữ liệu JSON từ Postman
     if (!isset($data['ten_nxb']) || !isset($data['thongtin_nxb'])) {
-        echo json_encode(["message" => "Thiếu dữ liệu!"]);
+        echo json_encode(["message" => "Thiếu dữ liệu nhà xuất bản!"]);
         return;
     }
 
@@ -123,15 +123,18 @@ function updateNhaxuatban($nxbModel) {
 }
 
 function deleteNhaxuatban($nxbModel) {
-    if (isset($_GET['nxb_id'])) {
-        $id = intval($_GET['nxb_id']);
-        if ($nxbModel->deleteNhaxuatban($id)) {
-            echo json_encode(["message" => "Xoá nhà xuất bản thành công!"]);
-        } else {
-            echo json_encode(["message" => "Xóa nhà xuất bản thất bại!"]);
-        }
-    } else {
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!isset($data['nxb_id'])) {
         echo json_encode(["message" => "Thiếu ID nhà xuất bản!"]);
+        return;
+    }
+
+    $id = $data['nxb_id'];
+
+    if ($nxbModel->deleteNhaxuatban($id)) {
+        echo json_encode(["message" => "Xóa nhà xuất bản thành công!"]);
+    } else {
+        echo json_encode(["message" => "Xóa nhà xuất bản thất bại!"]);
     }
 }
 
@@ -141,7 +144,7 @@ function searchNhaxuatban($nxbModel) {
     if ($nxb) {
         echo json_encode($nxb); // Trả về danh sách nxb dưới dạng JSON
     } else {
-        echo json_encode(["message" => "Không tìm thấy nxb nào!"]);
+        echo json_encode(["message" => "Không tìm thấy nhà xuất bản nào!"]);
     }
 }
 ?>

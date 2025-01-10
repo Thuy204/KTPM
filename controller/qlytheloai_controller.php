@@ -14,8 +14,10 @@ switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
             readTheloaiById($theloaiModel);
+        } else if (isset($_GET['timkiem'])) {
+            searchTheloai($theloaiModel); // Tìm theloai theo ID hoặc tên
         } else {
-            readAllTheloai($theloaiModel);
+            readAllTheloai($theloaiModel); // Lấy tất cả theloai
         }
         break;
 

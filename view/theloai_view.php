@@ -19,7 +19,7 @@
         include '../config/db.php'; // Thay đổi đường dẫn nếu cần
     ?>
     <div class="container">
-        <div class="box">
+        < class="box">
             <h2>DANH SÁCH THỂ LOẠI</h2>
                 <div class="row align-items-end">
                     <div class="col">
@@ -30,7 +30,7 @@
                         <button type="button" class="btn btn-success" id="button-add">Add</button>
                     </div>
                 </div>
-        </div>
+    </div>
         <!-- Bảng hiển thị danh sách thể loại -->
          <div class="table-container">
          <table class="table table-striped table-hover">
@@ -105,7 +105,8 @@
                 </div>
             </div>
         </div>
-        <!-- Modal edit -->
+    
+    <!-- Modal edit -->
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -140,12 +141,8 @@
 
     </div>
 </body>
+
 <script>
-
-    document.getElementById('button-add').addEventListener('click', function() {
-        $('#addModal').modal('show');
-    });
-
     function loadTheloai() {
         fetch('http://localhost/KTPM/controller/qlytheloai_controller.php', {
             method: 'GET',
@@ -303,6 +300,46 @@
         });
     });
 
+    function searchTheloai() {
+    const giatri_tim = document.querySelector('input[name="tim_theloai"]').value; // Lấy giá trị từ ô tìm kiếm
+    fetch(`http://localhost/KTPM/controller/qlytheloai_controller.php?timkiem=${encodeURIComponent(giatri_tim)}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Chuyển đổi phản hồi thành JSON
+    })
+    .then(data => {
+        const tableBody = document.getElementById('theloai_table');
+        tableBody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
+        // Duyệt qua từng mục trong dữ liệu và thêm vào bảng
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không tìm thấy kết quả.</td></tr>';
+        } else {
+            data.forEach(theloai => {
+                const row = document.createElement('tr'); // Tạo một hàng mới cho bảng
+                row.innerHTML = `
+                    <td>${theloai.theloai_id}</td>
+                    <td>${theloai.ten_theloai}</td>
+                    <td>${theloai.thongtin_theloai}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editTheloai(${theloai.theloai_id})">Sửa</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteTheloai(${theloai.theloai_id})">Xóa</button>
+                    </td>
+                `;
+                tableBody.appendChild(row); // Thêm hàng mới vào bảng
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error); // Xử lý lỗi nếu có
+    });
+}
 
 
     window.onload = loadTheloai;

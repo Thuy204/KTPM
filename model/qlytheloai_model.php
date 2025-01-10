@@ -49,6 +49,18 @@ class Theloai {
         $query = "DELETE FROM " . $this->table . " WHERE theloai_id=$id";
         return mysqli_query($this->conn, $query);
     }
+    public function searchTheloai($timkiem) {
+        $query = "SELECT * FROM theloai
+                  WHERE theloai_id = '$timkiem' OR ten_theloai LIKE n'%$timkiem%'";
+        $result = mysqli_query($this->conn, $query);
+    
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
+        } else {
+            return [];
+        }
+    }
 }
 
 
@@ -115,6 +127,16 @@ function deleteTheloai($theloaiModel) {
         echo json_encode(["message" => "Xóa thể loại thành công!"]);
     } else {
         echo json_encode(["message" => "Xóa thể loại thất bại!"]);
+    }
+}
+
+function searchTheloai($theloaiModel) {
+    $timkiem = $_GET['timkiem']; // Lấy từ khóa tìm kiếm từ URL
+    $theloai = $theloaiModel->searchTheloai($timkiem);
+    if ($theloai) {
+        echo json_encode($theloai); // Trả về danh sách theloai dưới dạng JSON
+    } else {
+        echo json_encode(["message" => "Không tìm thấy thể loại nào!"]);
     }
 }
 
