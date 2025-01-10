@@ -8,51 +8,32 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
-    <style>
-        .box h2 {
-            float: left;
-            margin: 10px;
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-        .img {
-            width: 5rem;
-            height: 6rem;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <!-- Bao gồm phần header và cấu hình -->
     <?php
-        include '../frontend/head.php';
+        include 'head.php';
         include '../config/db.php';
         include '../model/qlytacgia_model.php';
     ?>
     <div class="container">
         <div class="box">
             <h2>DANH SÁCH TÁC GIẢ</h2>
-            <!-- Form tìm kiếm -->
-            <form action="search_tacgia.php" method="POST">
                 <div class="row">
                     <div class="col">
                         <input type="text" class="form-control" placeholder="Tìm kiếm tác giả" name="tim_tacgia">
                     </div>
-                    <div class="col">
+                    <div class="col-auto">
                         <button class="btn btn-primary" type="submit" name="timkiem">Tìm kiếm</button>
                     </div>
-                    <div class="col">
+                    <div class="col-auto">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAuthorModal">Thêm mới tác giả</button>
                     </div>
                 </div>
-            </form>
         </div>
-
+        <div class="table-container">
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -67,6 +48,8 @@
                 <!-- Dữ liệu tác giả sẽ được tải động từ server -->
             </tbody>
         </table>
+        </div>
+        
         <!-- Modal thêm mới tác giả -->
         <div class="modal fade" id="addAuthorModal" tabindex="-1" role="dialog" aria-labelledby="addAuthorModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">

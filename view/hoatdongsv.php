@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<title>Thông báo mới</title>
+<title>Hoạt động sinh viên</title> 
 <style>
     .box h2 {
         float: left; 
@@ -33,7 +33,6 @@
         border-radius: 5px;
         background-color: #f9f9f9;
     }
-
     .box {
         position: sticky;
         top: 0;
@@ -50,33 +49,34 @@
 </head>
 <body>
     <?php
-        include '../frontend/head.php';
+        include 'head.php';
     ?>
+
     <div class="container mt-4">
         <div class="box clearfix">
-            <h2>Thông Báo Mới</h2>
+            <h2>Hoạt động Sinh Viên</h2>
         </div>
 
-            <div class="table-container">
-        <div id="notification-list">
+        <div class="table-container">
+        <div id="student-activities">
             <div class="notification">
-                <h4>Thông báo 1</h4>
-                <p>Thư viện sẽ tổ chức buổi giới thiệu sách mới vào ngày 15/01/2025.</p>
+                <h4>Hoạt động 1: Chương trình thiện nguyện</h4>
+                <p>Sinh viên tham gia chương trình thiện nguyện tại xã A, huyện B vào ngày 20/01/2025.</p>
                 <small>Ngày đăng: 10/01/2025</small>
             </div>
 
             <div class="notification">
-                <h4>Thông báo 2</h4>
-                <p>Giờ mở cửa thư viện được điều chỉnh: từ 8:00 AM đến 6:00 PM, áp dụng từ tuần sau.</p>
+                <h4>Hoạt động 2: Hội thảo kỹ năng mềm</h4>
+                <p>Hội thảo "Kỹ năng giao tiếp hiệu quả" sẽ diễn ra tại hội trường lớn vào ngày 25/01/2025.</p>
                 <small>Ngày đăng: 09/01/2025</small>
             </div>
 
             <div class="notification">
-                <h4>Thông báo 3</h4>
-                <p>Thư viện sẽ tạm đóng cửa để bảo trì vào ngày 12/01/2025.</p>
+                <h4>Hoạt động 3: Giải bóng đá sinh viên</h4>
+                <p>Đăng ký tham gia giải bóng đá sinh viên tại văn phòng Đoàn trước ngày 15/01/2025.</p>
                 <small>Ngày đăng: 08/01/2025</small>
-                </div>
             </div>
+        </div>
         </div>
     </div>
 </body>

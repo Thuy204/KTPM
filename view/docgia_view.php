@@ -7,64 +7,48 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>Quản lý độc giả</title>
-    <style>
-        .box h2 {
-            float: left; 
-            margin: center; 
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-        /* .img {
-            width: 5rem;
-            height: 6rem;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        } */
-    </style>
 </head>
 <body>
     <?php
-        include '../frontend/head.php';
+        include 'head.php';
         include '../config/db.php';
         include '../model/qlydocgia_model.php';
     ?>
     <div class="container">
         <div class="box">
         <h2>DANH SÁCH ĐỘC GIẢ</h2>
-        <form action="search_docgia.php" method="POST">
             <div class="row align-items-end"> <!-- Optional alignment -->
                 <div class="col">
                     <input type="text" placeholder="Search" name="tim_docgia" class="form-control">
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary" name="timkiem">Tìm kiếm</button>
+                    <button type="submit" class="btn btn-primary" onclick="searchDocgia()">Tìm kiếm</button>
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Thêm mới</button>
                 </div>
             </div>
-        </form>
         </div>
-        <table class="table table-striped table-hover ">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Họ và tên</th>
-                    <th>Tuổi</th>
-                    <th>Giới tính</th>
-                    <th>Số điện thoại</th>
-                    <th>Email</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody id="docgia_table">
-            </tbody>
-        </table>
+        <div class="table-container ">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Họ và tên</th>
+                        <th>Tuổi</th>
+                        <th>Giới tính</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="docgia_table">
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 
     <!-- Modal Add -->
@@ -353,6 +337,51 @@ document.getElementById('editForm').addEventListener('submit', function (event) 
             alert("Đã xảy ra lỗi khi cố gắng xóa!");
         });
     }
+}
+    function searchDocgia() {
+    const giatri_tim = document.querySelector('input[name="tim_docgia"]').value; // Lấy giá trị từ ô tìm kiếm
+
+    fetch(`http://localhost/KTPM/controller/qlydocgia_controller.php?timkiemDG=${encodeURIComponent(giatri_tim)}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Chuyển đổi phản hồi thành JSON
+    })
+    .then(data => {
+        const tableBody = document.getElementById('docgia_table');
+        tableBody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
+
+        // Duyệt qua từng mục trong dữ liệu và thêm vào bảng
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="7" class="text-center">Không tìm thấy kết quả.</td></tr>';
+        } else {
+            data.forEach(docgia => {
+                const row = document.createElement('tr'); // Tạo một hàng mới cho bảng
+                row.innerHTML = `
+                        <td>${docgia.docgia_id}</td>
+                        <td>${docgia.ten_docgia}</td>
+                        <td>${docgia.tuoi_docgia}</td>
+                        <td>${docgia.gioitinh_docgia === "0" ? 'Nam' : 'Nữ'}</td>
+                        <td>${docgia.sdt_docgia}</td>
+                        <td>${docgia.email}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editDocgia(${docgia.docgia_id})">Cập nhật</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteDocgia(${docgia.docgia_id})">Xoá</button>
+                        </td>
+                `;
+                tableBody.appendChild(row); // Thêm hàng mới vào bảng
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error); // Xử lý lỗi nếu có
+    });
 }
 
 

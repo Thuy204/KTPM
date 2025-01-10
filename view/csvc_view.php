@@ -7,43 +7,12 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <title>Quản lý cơ sở vật chất</title>
-    <style>
-        .box h2 {
-            float: left; 
-            margin: 10px; 
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-        .img {
-            width: 5rem;
-            height: 6rem;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .box {
-        position: sticky;
-        top: 0;
-        background: white;
-        z-index: 1000;
-        padding: 10px 0;
-    }
-    .table-container {
-        max-height: 400px; /* Chiều cao tối đa của bảng */
-        overflow-y: auto;
-        margin-top: 20px;
-    }
-    </style>
+<link rel="stylesheet" href="style.css">
+<title>Quản lý cơ sở vật chất</title>
 </head>
 <body>
     <?php
-        include '../frontend/head.php';
+        include 'head.php';
         include '../config/db.php';
         include '../model/qlycsvc_model.php';
     ?>
@@ -62,7 +31,7 @@
             </form>
             <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addModal">Thêm mới</button>
     <div class="table-container">
-        <table class="table table-bordered">
+        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -72,10 +41,14 @@
                         <th>Hành Động</th>
                     </tr>
                 </thead>
-            <tbody id="csvc_table">
+            <div class="table-body">
+                <tbody id="csvc_table"> 
                 <!-- Dữ liệu được load từ API -->
-            </tbody>
+                </tbody>
+            </div>
         </table>
+    </div>
+    </div>
     </div>
 
     <!-- Modal Thêm Cơ Sở Vật Chất -->

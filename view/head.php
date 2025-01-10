@@ -23,7 +23,7 @@
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="../frontend/trangchu.php">Trang chủ</a>
+                                <a class="nav-link text-white" href="trangchu.php">Trang chủ</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,15 +41,15 @@
                                     Quản lý
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="../view/nguoidung_view.php">Tài Khoản</a></li>
-                                    <li><a class="dropdown-item" href="../view/sach_view.php">Sách</a></li>
-                                    <li><a class="dropdown-item" href="../view/docgia_view.php">Độc giả</a></li>
-                                    <li><a class="dropdown-item" href="../view/tacgia_view.php">Tác giả</a></li>
-                                    <li><a class="dropdown-item" href="../view/nxb_view.php">Nhà xuất bản</a></li>
-                                    <li><a class="dropdown-item" href="../view/theloai_view.php">Thể loại</a></li>
-                                    <li><a class="dropdown-item" href="../view/csvc_view.php">Cơ sở vật chất</a></li>
+                                    <li><a class="dropdown-item" href="nguoidung_view.php">Tài Khoản</a></li>
+                                    <li><a class="dropdown-item" href="sach_view.php">Sách</a></li>
+                                    <li><a class="dropdown-item" href="docgia_view.php">Độc giả</a></li>
+                                    <li><a class="dropdown-item" href="tacgia_view.php">Tác giả</a></li>
+                                    <li><a class="dropdown-item" href="nxb_view.php">Nhà xuất bản</a></li>
+                                    <li><a class="dropdown-item" href="theloai_view.php">Thể loại</a></li>
+                                    <li><a class="dropdown-item" href="csvc_view.php">Cơ sở vật chất</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="../view/muontra_view.php">Mượn trả</a></li>
+                                    <li><a class="dropdown-item" href="muontra_view.php">Mượn trả</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item">

@@ -7,27 +7,19 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>Quản lý Nhà Xuất Bản</title>
-    <style>
-        .box h2 {
-            float: left; 
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-    </style>
+
 </head>
 <body>
     <?php
-        include '../frontend/head.php';
+        include 'head.php';
         include '../config/db.php';
         include '../model/qlynxb_model.php';
     ?>
     <div class="container">
         <div class="box">
             <h2>DANH SÁCH NHÀ XUẤT BẢN</h2>
-            <form action="search_nxb.php" method="POST">
                 <div class="row align-items-end">
                     <div class="col">
                         <input type="text" placeholder="Search" name="tim_nxb" class="form-control">
@@ -39,8 +31,8 @@
                         <button type="button" class="btn btn-success" id="button-add">Add</button>
                     </div>
                 </div>
-            </form>
         </div>
+        <div class="table-container">
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -53,6 +45,7 @@
             <tbody id="nxb_table">
             </tbody>
         </table>
+        </div>
     </div>
 
     <!-- Modal Add -->
