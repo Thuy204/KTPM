@@ -217,89 +217,91 @@
     });
 
     // Sửa người dùng
-    function editNguoidung(id) {
-        fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id=${id}`)
+    // Sửa người dùng
+function editNguoidung(id) {
+    fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id=${id}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Lỗi HTTP: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(nguoidung => {
+        if (nguoidung) {
+            document.getElementById('nguoidung_id').value = nguoidung.id_nguoidung;
+            document.getElementById('edit_ten_nguoidung').value = nguoidung.ten_nguoidung;
+            document.getElementById('edit_email_nguoidung').value = nguoidung.email_nguoidung;
+            document.getElementById('edit_matkhau_nguoidung').value = nguoidung.matkhau_nguoidung;
+            document.querySelector(`input[name="edit_vaitro"][value="${nguoidung.vaitro_nguoidung}"]`).checked = true;
+            $('#editModal').modal('show');
+        } else {
+            alert("Không tìm thấy thông tin người dùng!");
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+        alert("Lỗi khi tải thông tin!");
+    });
+}
+
+// Cập nhật thông tin người dùng
+document.getElementById('editForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const id = document.getElementById('nguoidung_id').value;
+    const data = {
+        ten_nguoidung: document.getElementById('edit_ten_nguoidung').value,
+        email_nguoidung: document.getElementById('edit_email_nguoidung').value,
+        matkhau_nguoidung: document.getElementById('edit_matkhau_nguoidung').value,
+        vaitro_nguoidung: document.querySelector('input[name="edit_vaitro"]:checked')?.value
+    };
+    fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id=${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        $('#editModal').modal('hide');
+        loadNguoidung();
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+        alert('Đã xảy ra lỗi: ' + error.message);
+    });
+});
+
+
+    // Xóa người dùng
+    // Xóa người dùng
+function deleteNguoidung(id) {
+    if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
+        fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id_nguoidung: id })
+        })
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Lỗi HTTP: ${response.status}`);
             }
             return response.json();
         })
-        .then(nguoidung => {
-            if (nguoidung) {
-                document.getElementById('nguoidung_id').value = nguoidung.id_nguoidung;
-                document.getElementById('edit_ten_nguoidung').value = nguoidung.ten_nguoidung;
-                document.getElementById('edit_email_nguoidung').value = nguoidung.email_nguoidung;
-                document.getElementById('edit_matkhau_nguoidung').value = nguoidung.matkhau_nguoidung;
-                document.querySelector(`input[name="edit_vaitro"][value="${nguoidung.vaitro_nguoidung}"]`).checked = true;
-                $('#editModal').modal('show');
+        .then(data => {
+            if (data.status === 200) {
+                alert("Xóa thành công!");
+                loadNguoidung();
             } else {
-                alert("Không tìm thấy thông tin người dùng!");
+                alert(data.message);
             }
         })
         .catch(error => {
             console.error('Lỗi:', error);
-            alert("Lỗi khi tải thông tin!");
+            alert("Đã xảy ra lỗi khi cố gắng xóa!");
         });
     }
+}
 
-    document.getElementById('editForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const id = document.getElementById('nguoidung_id').value;
-        const data = {
-            ten_nguoidung: document.getElementById('edit_ten_nguoidung').value,
-            email_nguoidung: document.getElementById('edit_email_nguoidung').value,
-            matkhau_nguoidung: document.getElementById('edit_matkhau_nguoidung').value,
-            vaitro_nguoidung: document.querySelector('input[name="edit_vaitro"]:checked')?.value
-        };
-        fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id=${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            $('#editModal').modal('hide');
-                document.getElementById('ten_nguoidung').value = '';
-                document.getElementById('email_nguoidung').value = '';
-                document.getElementById('matkhau_nguoidung').value = '';
-                document.querySelector('input[name="edit_vaitro"]:checked').checked = false;
-            loadNguoidung();
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-            alert('Đã xảy ra lỗi: ' + error.message);
-        });
-    });
-
-    // Xóa người dùng
-    function deleteNguoidung(id) {
-        if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
-            fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Lỗi HTTP: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.status === 200) {
-                    alert("Xóa thành công!");
-                    loadNguoidung();
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Lỗi:', error);
-                alert("Đã xảy ra lỗi khi cố gắng xóa!");
-            });
-        }
-    }
 
     window.onload = loadNguoidung;
 </script>
