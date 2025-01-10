@@ -14,7 +14,10 @@ switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
             readDocgiaById($docgiaModel); // Lấy độc giả theo ID
-        } else {
+        } 
+        else if (isset($_GET['timkiemDG'])) {
+            searchDocgia($docgiaModel); // Lấy độc giả theo ID
+        }else {
             readAllDocgia($docgiaModel); // Lấy tất cả độc giả 
         }
         break;

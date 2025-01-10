@@ -1,0 +1,67 @@
+
+  .layout{
+    background-color: #FFFFFF;
+    width: 30%;
+    height: auto;
+    margin: 7% auto;
+    padding: 25px 10px;
+    border-radius: 1rem 1rem 1rem 1rem;
+
+  }
+  .edit{
+    background-color: #746f6f3d;
+    /* background-color: rgba(255, 255, 255, 0.9); */
+    width: 30%;
+    height: auto;
+    margin: 7% auto;
+    padding: 10px 10px;
+    border-radius: 1rem 1rem 1rem 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    }
+    .body{
+      margin: 0px;
+      padding: 0px;
+      background-image: url('img/background/bg.jpg'); 
+      background-size: cover; 
+      background-position: center; 
+  }
+    .table-container {
+      max-height: 400px; /* Chiều cao tối đa của vùng cuộn */
+      overflow-y: auto;  /* Cho phép cuộn dọc */
+      margin-top: 20px;
+  }
+
+  .table-body {
+      display: block; /* Để cho phép cuộn */
+      max-height: 400px; /* Chiều cao tối đa */
+      overflow-y: auto;  /* Cho phép cuộn dọc */
+  }
+
+  .table-body table {
+      width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
+  }
+  .box{
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1000;
+    padding: 10px 0;
+  }
+  .box h2 {
+    float: left; 
+    margin: center; 
+  }
+  .box form {
+      float: right;
+      margin: 10px;
+  }
+  .img {
+    width: 5rem;
+    height: 6rem;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

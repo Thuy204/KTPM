@@ -5,7 +5,7 @@ session_start();
     }
 ?>
 <?php
-      include '../frontend/head.php';
+      include 'head.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
