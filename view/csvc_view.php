@@ -50,17 +50,17 @@
     <div class="container">
         <div class="box">
             <h2>DANH SÁCH CƠ SỞ VẬT CHẤT</h2>
-            <form action="search_csvc.php" method="POST">
-                <div class="row">
-                    <div class="col">
-                        <input type="text" placeholder="Search" name="tim_csvc" class="form-control">
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-primary" name="timkiem">Tìm kiếm</button>
-                    </div>
+            <form onsubmit="event.preventDefault(); searchcsvc();"> <!-- Sử dụng JavaScript để xử lý tìm kiếm -->
+            <div class="row">
+                <div class="col">
+                    <input type="text" placeholder="Search" name="tim_csvc" class="form-control" id="tim_csvc_input">
                 </div>
-            </form>
-            <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addModal">Thêm mới</button>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </div>
+            </div>
+        </form>
+        <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addModal">Thêm mới</button>
     </div>
     <div class="table-container">
         <table class="table table-bordered">
@@ -77,6 +77,7 @@
                 <!-- Dữ liệu được load từ API -->
             </tbody>
         </table>
+            <button id="btnQuayLai" class="btn btn-secondary mt-3 d-none" onclick="load_csvc()">Quay lại</button>
     </div>
 
 
@@ -333,6 +334,59 @@ function delete_csvc(csvc_id) {
     }
 }
 
+function searchcsvc() {
+    const timKiemValue = document.getElementById('tim_csvc_input').value.trim();
+
+    // Kiểm tra đầu vào trống
+    if (!timKiemValue) {
+        alert('Vui lòng nhập thông tin cần tìm!');
+        return;
+    }
+
+    // Gửi yêu cầu fetch đến API
+    fetch(`http://localhost/KTPM/controller/qlycsvc_controller.php?timkiem=${encodeURIComponent(timKiemValue)}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Chuyển đổi phản hồi thành JSON
+    })
+    .then(data => {
+        const tableBody = document.getElementById('csvc_table');
+        tableBody.innerHTML = ''; // Xóa nội dung cũ
+
+        if (Array.isArray(data) && data.length > 0) {
+            data.forEach(csvc => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${csvc.csvc_id}</td>
+                    <td>${csvc.ten_csvc}</td>
+                    <td>${csvc.soluong_csvc}</td>
+                    <td>${csvc.tinhtrang_csvc}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editCsvc(${csvc.csvc_id})">Sửa</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteCsvc(${csvc.csvc_id})">Xóa</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+                        // Hiển thị nút "Quay lại danh sách"
+                        document.getElementById('btnQuayLai').classList.remove('d-none');
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không tìm thấy kết quả.</td></tr>';
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+        const tableBody = document.getElementById('csvc_table');
+        tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Đã xảy ra lỗi khi tìm kiếm.</td></tr>';
+    });
+}
 
 // Gọi hàm load_csvc khi trang được tải
 window.onload = load_csvc;
