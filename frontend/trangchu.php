@@ -132,9 +132,9 @@ session_start();
     <section class="footer bg-dark text-white py-4">
         <div class="container">
         <div class="text-center">
-            <h4>Nhóm 5: Quanlythuvien2024</h4>
+            <h4>Nhóm 7: Quanlythuvien2025</h4>
             <p>Liên hệ:</p>
-            <p>Email: <a href="#">Nhom5@gmail.com</a></p>
+            <p>Email: <a href="#">Nhom7@gmail.com</a></p>
             <hr>
             <p>Xin chân thành cảm ơn</p>
 

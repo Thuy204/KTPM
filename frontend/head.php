@@ -30,8 +30,8 @@
                                     Tin tức
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Thông báo mới</a></li>
-                                    <li><a class="dropdown-item" href="#">Hoạt động sinh viên</a></li>
+                                    <li><a class="dropdown-item" href="thongbaomoi.php">Thông báo mới</a></li>
+                                    <li><a class="dropdown-item" href="hoatdongsv.php">Hoạt động sinh viên</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="#">Khác</a></li>
                                 </ul>
@@ -53,7 +53,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" aria-disabled="true">Hỗ Trợ</a>
+                                <a class="nav-link text-white" href="hotro.php">Hỗ Trợ</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="../logout.php">Đăng xuất</a>
