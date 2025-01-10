@@ -3,10 +3,12 @@ class Nhaxuatban {
     private $conn;
     private $table = "nhaxuatban";
 
+    // Constructor để nhận kết nối cơ sở dữ liệu
     public function __construct($db) {
         $this->conn = $db;
     }
 
+      // Lấy tất cả các nhà xuất bả
     public function readAllNhaxuatban() {
         $query = "SELECT * FROM nhaxuatban";
         $result = mysqli_query($this->conn, $query);
@@ -19,6 +21,7 @@ class Nhaxuatban {
         }
     }
 
+    // Lấy thông tin nhà xuất bản theo ID
     public function readNhaxuatbanById($id) {
         $query = "SELECT * FROM nhaxuatban WHERE nxb_id = $id";
         $result = mysqli_query($this->conn, $query);
@@ -31,20 +34,37 @@ class Nhaxuatban {
         }
     }
 
+    // Thêm nhà xuất bản mới
     public function addNhaxuatban($name, $info) {
         $query = "INSERT INTO nhaxuatban (ten_nxb, thongtin_nxb) 
         VALUES (n'$name', n'$info')";
         return mysqli_query($this->conn, $query);
     }
 
+    // Cập nhật thông tin nhà xuất bản
     public function updateNhaxuatban($id, $name, $info) {
         $query = "UPDATE nhaxuatban SET ten_nxb = n'$name', thongtin_nxb = n'$info' WHERE nxb_id = $id";
         return mysqli_query($this->conn, $query);
     }
 
+       // Xóa nhà xuất bản
     public function deleteNhaxuatban($id) {
         $query = "DELETE FROM nhaxuatban WHERE nxb_id = $id";
         return mysqli_query($this->conn, $query);
+    }
+
+    // Tìm kiếm nhà xuất bản theo từ khóa
+    public function searchNhaxuatban($timkiem) {
+        $query = "SELECT * FROM nhaxuatban 
+                  WHERE nxb_id = '$timkiem' OR ten_nxb LIKE n'%$timkiem%'";
+        $result = mysqli_query($this->conn, $query);
+    
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
+        } else {
+            return [];
+        }
     }
 }
 
@@ -112,6 +132,16 @@ function deleteNhaxuatban($nxbModel) {
         }
     } else {
         echo json_encode(["message" => "Thiếu ID nhà xuất bản!"]);
+    }
+}
+
+function searchNhaxuatban($nxbModel) {
+    $timkiem = $_GET['timkiem']; // Lấy từ khóa tìm kiếm từ URL
+    $nxb = $nxbModel->searchNhaxuatban($timkiem);
+    if ($nxb) {
+        echo json_encode($nxb); // Trả về danh sách nxb dưới dạng JSON
+    } else {
+        echo json_encode(["message" => "Không tìm thấy nxb nào!"]);
     }
 }
 ?>
