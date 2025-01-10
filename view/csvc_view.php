@@ -210,12 +210,20 @@ function load_csvc() {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === 201) {
-            $('#addModal').modal('hide');
-            load_csvc(); // Reload dữ liệu sau khi thêm thành công
-        } else {
-            alert(data.message);
-        }
+        // if (data.status === 201) {
+        //     $('#addModal').modal('hide');
+        //     load_csvc(); // Reload dữ liệu sau khi thêm thành công
+        // } else {
+        //     alert(data.message);
+        // }
+
+        alert(data.message); // Hiển thị thông báo từ server
+        $('#addModal').modal('hide'); // Đóng modal
+        // Reset các trường nhập liệu
+        document.getElementById('ten_csvc').value = '';
+        document.getElementById('soluong_csvc').value = '';
+        document.querySelector('input[name="tinhtrang_csvc"]:checked').checked = false; // Đặt lại radio button
+        load_csvc(); // Tải lại danh sách độc giả
     })
     .catch(error => {
         console.error('Lỗi:', error);
@@ -270,12 +278,14 @@ function edit_csvc(csvc_id) {
         return response.json();
     })
     .then(data => {
-        if (data.status === 200) {
-            $('#editModal').modal('hide');
-            load_csvc(); // Cập nhật lại bảng
-        } else {
-            alert(data.message || "Có lỗi xảy ra!");
-        }
+        alert(data.message); // Hiển thị thông báo từ server
+        $('#editModal').modal('hide'); // Đóng modal
+        // Reset các trường nhập liệu
+        document.getElementById('edit_csvc_id').value-'';
+        document.getElementById('edit_ten_csvc').value = '';
+        document.getElementById('edit_soluong_csvc').value = '';
+        document.querySelector('input[name="edit_tinhtrang_csvc"]:checked').checked = false; // Đặt lại radio button
+        load_csvc(); // Tải lại danh sách  sau cập nhật
     })
     .catch(error => {
         console.error('Lỗi:', error);
