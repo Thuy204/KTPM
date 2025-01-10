@@ -16,6 +16,8 @@ switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
             readNguoidungById($nguoidungModel); // Lấy người dùng theo ID
+        } else if (isset($_GET['timkiem'])) {
+            searchTacgia($nguoidungModel);
         } else {
             readAllNguoidung($nguoidungModel); // Lấy tất cả người dùng
         }
