@@ -15,9 +15,9 @@ switch ($request_method) {
         if (isset($_GET['id'])) {
             readNhaxuatbanById($nxbModel); // Lấy nhà xuất bản theo ID
         }  else if (isset($_GET['timkiem'])) {
-            searchNhaxuatban($nxbModel); // Tìm tác giả theo ID hoặc tên
+            searchNhaxuatban($nxbModel); // Tìm nhà xuất bảnả theo ID hoặc tên
         } else {
-            readAllNhaxuatban($nxbModel); // Lấy tất cả tác giả 
+            readAllNhaxuatban($nxbModel); // Lấy tất cả nhà xuất bản
         }
         break;
         
@@ -72,6 +72,16 @@ switch ($request_method) {
         $name = $data['ten_nxb'];
         $inf = $data['thongtin_nxb'];
 
+    //     // Bắt lỗi: Không cho phép sửa `nxb_id`
+    // if ($data['nxb_id'] != $id) { 
+    //     http_response_code(400);
+    //     $data = [
+    //         'status' => 400,
+    //         'message' => 'Không được phép sửa ID nhà xuất bản',
+    //     ];
+    //     echo json_encode($data);
+    //     break;
+    // }
         if ($nxbModel->updateNhaxuatban($id, $name, $inf)) {
             http_response_code(200);
             $data = [
@@ -89,39 +99,39 @@ switch ($request_method) {
         }
         break;
 
-    case 'DELETE':
-        if (isset($_GET['nxb_id'])) {
-            $id = intval($_GET['nxb_id']);
-            
-            if ($id <= 0) {
+        case 'DELETE':
+            if (isset($_GET['nxb_id'])) {
+                $id = $_GET['nxb_id'];
+    
+                if (!is_numeric($id) || $id <= 0) {
+                    http_response_code(400);
+                    $data = [
+                        'status' => 400,
+                        'message' => 'ID nhà xuất bản không hợp lệ',
+                    ];
+                    echo json_encode($data);
+                    exit;
+                }
+    
+                $deleted_nxb = $nxbModel->deleteNhaxuatban($id); // Xóa nxb
+                if ($deleted_nxb) {
+                    http_response_code(200);
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Xóa nhà xuất bản thành công!',
+                    ];
+                    echo json_encode($data);
+                    exit;
+                }
+            } else {
                 http_response_code(400);
                 $data = [
                     'status' => 400,
-                    'message' => 'ID nhà xuất bản không hợp lệ',
+                    'message' => 'Thiếu ID nxb!',
                 ];
                 echo json_encode($data);
-                exit;
             }
-
-            $deleted_Nhaxuatban = $nxbModel->deleteNhaxuatban($id); // Xóa nhà xuất bản
-            if ($deleted_Nhaxuatban) {
-                http_response_code(200);
-                $data = [
-                    'status' => 200,
-                    'message' => 'Xoá thành công!',
-                ];
-                echo json_encode($data);
-                exit;
-            }  
-        } else {
-            http_response_code(400);
-            $data = [
-                'status' => 400,
-                'message' => 'Thiếu ID nhà xuất bản!',
-            ];
-            echo json_encode($data);
-        }
-        break;
+            break;
 
         
 }

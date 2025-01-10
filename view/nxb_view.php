@@ -67,15 +67,37 @@
                 <form id="addFormMT">
                     <div class="form-group">
                         <label for="id_nxb" class="form-label">ID</label>
-                        <input type="number" class="form-control" id="nxb_id" name="id_nxb" placeholder="Nhập mã nhà xuất bản" required />
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="nxb_id"
+                            name="id_nxb"
+                            placeholder="ID sẽ được tự động tạo"
+                            readonly
+                            required
+                        />
                     </div>
                     <div class="form-group">
                         <label for="ten_nxb" class="form-label">Tên</label>
-                        <input type="text" class="form-control" id="ten_nxb" name="ten_nxb" required />
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="ten_nxb"
+                            name="ten_nxb"
+                            placeholder="Nhập tên nhà xuất bản"
+                            required
+                        />
                     </div>
                     <div class="form-group">
                         <label for="thongtin_nxb" class="form-label">Thông tin</label>
-                        <input type="text" class="form-control" id="thongtin_nxb" name="thongtin_nxb" required />
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="thongtin_nxb"
+                            name="thongtin_nxb"
+                            placeholder="Nhập thông tin nhà xuất bản"
+                            required
+                        />
                     </div>
                     <button type="submit" class="btn btn-primary">Thêm nhà xuất bản</button>
                 </form>
@@ -83,6 +105,24 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Gọi hàm tạo ID tự động khi modal được mở
+    document.addEventListener("DOMContentLoaded", function () {
+        const addModal = document.getElementById("addModal");
+    //DOMContentLoaded: Sự kiện kích hoạt khi trình duyệt hoàn tất việc tải DOM của trang 
+        addModal.addEventListener("shown.bs.modal", function () {
+            //shown.bs.modal là t sự kiện được cc bởi  Bootstrap  để lắng nghe khi một modal đã hiển thị hoàn toàn trên giao diện.
+            const idField = document.getElementById("nxb_id");
+            idField.value = generateUniqueID(); // Gọi hàm để tạo ID tự động
+        });
+    });
+
+    function generateUniqueID() {
+        return Math.floor(Math.random() * 1000000); // Tạo ID ngẫu nhiên trong khoảng từ 0 đến 999999
+    }
+</script>
+
 
 <!-- Modal Edit -->
 <div class="modal fade" id="editModalMT" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -100,11 +140,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="ten_nxb" class="form-label">Tên</label>
-                        <input type="text" class="form-control" id="edit_tennxb" disabled>
+                        <input type="text" class="form-control" id="edit_tennxb" required>
                     </div>
                     <div class="mb-3">
                         <label for="thongtin_nxb" class="form-label">Thông tin</label>
-                        <input type="text" class="form-control" id="edit_thongtinnxb" disabled>
+                        <input type="text" class="form-control" id="edit_thongtinnxb" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -239,25 +279,35 @@
     });
 
     function deletenxb(nxb_id) {
-        const confirmed = confirm("Bạn có chắc muốn xóa nhà xuất bản này?");
-        if (confirmed) {
-            fetch(`http://localhost/KTPM/controller/qlynxb_controller.php?id=${nxb_id}`, {
+        if (confirm("Bạn có chắc chắn muốn xóa nhà xuất bản này?")) {
+            fetch(`http://localhost/KTPM/controller/qlynxb_controller.php?nxb_id=${nxb_id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',  // Đảm bảo rằng headers là json
                 }
+                // Không cần body vì ID đã được truyền qua URL
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Lỗi HTTP: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
-                alert(data.message);
-                loadnxb();
+                if (data.status === 200) {
+                    alert("Xóa thành công!");
+                    loadnxb();  // Gọi lại hàm để tải lại dữ liệu sau khi xóa
+                } else {
+                    alert(data.message);
+                }
             })
             .catch(error => {
                 console.error('Lỗi:', error);
-                alert('Đã xảy ra lỗi khi xóa!');
+                alert("Đã xảy ra lỗi khi cố gắng xóa!");
             });
         }
     }
+
     function searchNhaxuatban() {
     const giatri_tim = document.querySelector('input[name="tim_nxb"]').value; // Lấy giá trị từ ô tìm kiếm
     fetch(`http://localhost/KTPM/controller/qlynxb_controller.php?timkiem=${encodeURIComponent(giatri_tim)}`, {
