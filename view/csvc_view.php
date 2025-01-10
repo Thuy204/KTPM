@@ -26,6 +26,19 @@
             align-items: center;
             justify-content: center;
         }
+
+        .box {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 1000;
+        padding: 10px 0;
+    }
+    .table-container {
+        max-height: 400px; /* Chiều cao tối đa của bảng */
+        overflow-y: auto;
+        margin-top: 20px;
+    }
     </style>
 </head>
 <body>
@@ -48,17 +61,17 @@
                 </div>
             </form>
             <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addModal">Thêm mới</button>
-        </div>
+    <div class="table-container">
         <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tên</th>
-                    <th>Số Lượng</th>
-                    <th>Tình Trạng</th>
-                    <th>Hành Động</th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Số Lượng</th>
+                        <th>Tình Trạng</th>
+                        <th>Hành Động</th>
+                    </tr>
+                </thead>
             <tbody id="csvc_table">
                 <!-- Dữ liệu được load từ API -->
             </tbody>
