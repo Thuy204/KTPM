@@ -12,20 +12,14 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-            $result = $sachModel->readSachById($id);
-            if ($result) {
-                echo json_encode($result);
-            } else {
-                http_response_code(404);
-                echo json_encode(["message" => "Không tìm thấy sách với ID này!"]);
-            }
+            readSachById($sachModel); // Lấy sách theo ID
+        } else if (isset($_GET['timkiem'])) {
+            searchSach($sachModel); // Tìm sách theo ID hoặc tên
         } else {
-            $result = $sachModel->readAllSach();
-            echo json_encode($result);
+            readAllSach($sachModel); // Lấy tất cả sách
         }
         break;
-
+       
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
         if (!isset($data['sach_id'], $data['tacgia_id'], $data['theloai_id'], $data['nxb_id'], $data['mota_sach'], $data['ten_sach'], $data['soluong_tonkho'])) {

@@ -39,14 +39,19 @@ class NguoiDung {
 
         return $stmt->execute();
     }
-
     public function updateNguoiDung($id, $name, $email, $password, $role) {
-        $query = "UPDATE " . $this->table . " SET ten_nguoidung = ?, email_nguoidung = ?, matkhau_nguoidung = ?, vaitro_nguoidung = ? WHERE id_nguoidung = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssssi", $name, $email, $password, $role, $id);
-
-        return $stmt->execute();
+        $query = "UPDATE . $this->table . SET ten_nguoidung=n'$name', email_nguoidung= '$email', 
+        matkhau_nguoidung= n'$password', vaitro_nguoidung= '$role' WHERE id_nguoidung=$id";
+        return mysqli_query($this->conn, $query);
     }
+
+    // public function updateNguoiDung($id, $name, $email, $password, $role) {
+    //     $query = "UPDATE " . $this->table . " SET ten_nguoidung = ?, email_nguoidung = ?, matkhau_nguoidung = ?, vaitro_nguoidung = ? WHERE id_nguoidung = ?";
+    //     $stmt = $this->conn->prepare($query);
+    //     $stmt->bind_param("ssssi", $name, $email, $password, $role, $id);
+
+    //     return $stmt->execute();
+    // }
 
     // public function deleteNguoiDung($id) {
     //     $query = "DELETE FROM " . $this->table . " WHERE id_nguoidung = ?";
@@ -57,8 +62,20 @@ class NguoiDung {
     // }
 
     public function deleteNguoiDung($id) {
-        $query = "DELETE FROM nguoidung WHERE csvc_id=$id";
+        $query = "DELETE FROM nguoidung WHERE id_nguoidung=$id";
         return mysqli_query($this->conn, $query);
+    }
+    public function searchNguoiDung($timkiem) {
+        $query = "SELECT * FROM nguoidung 
+                  WHERE id_nguoidung = '$timkiem' OR ten_nguoidung LIKE n'%$timkiem%'";
+        $result = mysqli_query($this->conn, $query);
+    
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
+        } else {
+            return [];
+        }
     }
 }
 
@@ -128,31 +145,30 @@ function updateNguoiDung($nguoidungModel) {
     }
 }
 
-// function deleteNguoiDung($nguoidungModel) {
-//     $data = json_decode(file_get_contents("php://input"), true);
-
-//     if (!isset($data['id_nguoidung'])) {
-//         echo json_encode(["message" => "Thiếu ID người dùng!"]);
-//         return;
-//     }
-
-//     $id = $data['id_nguoidung'];
-
-//     if ($nguoidungModel->deleteNguoiDung($id)) {
-//         echo json_encode(["message" => "Xoá người dùng thành công!"]);
-//     } else {
-//         echo json_encode(["message" => "Xoá người dùng thất bại!"]);
-//     }
-// }
-
 function deleteNguoiDung($nguoidungModel) {
-    if ($nguoidungModel->deleteNguoiDung($nguoidungModel)) {
-        echo json_encode(["message" => "Người dùng đã được xóa"]);
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!isset($data['id_nguoidung'])) {
+        echo json_encode(["message" => "Thiếu ID người dùng!"]);
+        return;
+    }
+
+    $id = $data['id_nguoidung'];
+
+    if ($nguoidungModel->deleteNguoiDung($id)) {
+        echo json_encode(["message" => "Xoá người dùng thành công!"]);
     } else {
-        echo json_encode(["message" => "Xóa người dùng thất bại"]);
+        echo json_encode(["message" => "Xoá người dùng thất bại!"]);
     }
 }
-
-
+function searchNguoiDung($nguoidungModel) {
+    $timkiem = $_GET['timkiem']; // Lấy từ khóa tìm kiếm từ URL
+    $nguoidung = $nguoidungModel->searchNguoidung($timkiem);
+    if ($nguoidung) {
+        echo json_encode($nguoidung); // Trả về danh sách dưới dạng JSON
+    } else {
+        echo json_encode(["message" => "Không tìm thấy người dùng nào!"]);
+    }
+}
 
 ?>

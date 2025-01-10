@@ -21,12 +21,14 @@
     <div class="container">
         <div class="box">
             <h2>DANH SÁCH TÁC GIẢ</h2>
-                <div class="row">
+            <!-- Form tìm kiếm -->
+            <div class="row">
                     <div class="col">
                         <input type="text" class="form-control" placeholder="Tìm kiếm tác giả" name="tim_tacgia">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary" type="submit" name="timkiem">Tìm kiếm</button>
+
+                    <button type="submit" class="btn btn-primary" onclick="searchTacgia()">Tìm kiếm</button>
                     </div>
                     <div class="col-auto">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAuthorModal">Thêm mới tác giả</button>
@@ -305,6 +307,47 @@ function deleteTacgia(tacgia_id) {
             alert("Đã xảy ra lỗi khi cố gắng xóa!");
         });
     }
+}
+function searchTacgia() {
+    const giatri_tim = document.querySelector('input[name="tim_tacgia"]').value; // Lấy giá trị từ ô tìm kiếm
+    fetch(`http://localhost/KTPM/controller/qlytacgia_controller.php?timkiem=${encodeURIComponent(giatri_tim)}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Chuyển đổi phản hồi thành JSON
+    })
+    .then(data => {
+        const tableBody = document.getElementById('tacgia_table');
+        tableBody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
+        // Duyệt qua từng mục trong dữ liệu và thêm vào bảng
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không tìm thấy kết quả.</td></tr>';
+        } else {
+            data.forEach(tacgia => {
+                const row = document.createElement('tr'); // Tạo một hàng mới cho bảng
+                row.innerHTML = `
+                    <td>${tacgia.tacgia_id}</td>
+                    <td>${tacgia.ten_tacgia}</td>
+                    <td>${tacgia.gioitinh_tacgia === "0" ? 'Nam' : 'Nữ'}</td>
+                    <td>${tacgia.thongtin_tacgia}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editTacgia(${tacgia.tacgia_id})">Sửa</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteTacgia(${tacgia.tacgia_id})">Xóa</button>
+                    </td>
+                `;
+                tableBody.appendChild(row); // Thêm hàng mới vào bảng
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error); // Xử lý lỗi nếu có
+    });
 }
 
 window.onload = loadTacgia;

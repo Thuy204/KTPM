@@ -16,6 +16,8 @@ switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
             readNguoidungById($nguoidungModel); // Lấy người dùng theo ID
+        } else if (isset($_GET['timkiem'])) {
+            searchTacgia($nguoidungModel);
         } else {
             readAllNguoidung($nguoidungModel); // Lấy tất cả người dùng
         }
@@ -77,7 +79,7 @@ switch ($request_method) {
             echo json_encode($data);
             break;
         }
-        
+        $id = $data['id_nguoidung'];
         $name = $data['ten_nguoidung'];
         $email = $data['email_nguoidung'];
         $password = $data['matkhau_nguoidung'];
@@ -92,7 +94,7 @@ switch ($request_method) {
             exit;
         }
 
-        if ($nguoidungModel->updateNguoiDung( $name, $email, $password, $role)) {
+        if ($nguoidungModel->updateNguoiDung($id, $name, $email, $password, $role)) {
             http_response_code(200);
             $data = [
                 'status' => 200,
@@ -109,90 +111,45 @@ switch ($request_method) {
         }
         break;
     
-//     case 'DELETE':
-//         if (isset($_GET['id_nguoidung'])) {
-//             $id = $_GET['id_nguoidung'];
+    case 'DELETE':
+        if (isset($_GET['id_nguoidung'])) {
+            $id = $_GET['id_nguoidung'];
             
-//             if (!is_numeric($id) || $id <= 0) {
-//                 http_response_code(400);
-//                 $data = [
-//                     'status' => 400,
-//                     'message' => 'ID người dùng không hợp lệ',
-//                 ];
-//                 echo json_encode($data);
-//                 exit;
-//             }
+            if (!is_numeric($id) || $id <= 0) {
+                http_response_code(400);
+                $data = [
+                    'status' => 400,
+                    'message' => 'ID người dùng không hợp lệ',
+                ];
+                echo json_encode($data);
+                exit;
+            }
 
-//             if ($nguoidungModel->deleteNguoidung($id)) {
-//                 http_response_code(200);
-//                 $data = [
-//                     'status' => 200,
-//                     'message' => 'Xoá thành công!',
-//                 ];
-//                 echo json_encode($data);
-//             } else {
-//                 http_response_code(500);
-//                 $data = [
-//                     'status' => 500,
-//                     'message' => 'Xoá thất bại!',
-//                 ];
-//                 echo json_encode($data);
-//             }
-//         } else {
-//             http_response_code(400);
-//             $data = [
-//                 'status' => 400,
-//                 'message' => 'Thiếu ID người dùng!',
-//             ];
-//             echo json_encode($data);
-//         }
-//         break;
-// }
-
-case 'DELETE':
-    // Lấy id_nguoidung từ body
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (isset($data['id_nguoidung'])) {
-        $id = $data['id_nguoidung'];
-        
-        // Kiểm tra ID hợp lệ
-        if (!is_numeric($id) || $id <= 0) {
+            if ($nguoidungModel->deleteNguoidung($id)) {
+                http_response_code(200);
+                $data = [
+                    'status' => 200,
+                    'message' => 'Xoá thành công!',
+                ];
+                echo json_encode($data);
+            } else {
+                http_response_code(500);
+                $data = [
+                    'status' => 500,
+                    'message' => 'Xoá thất bại!',
+                ];
+                echo json_encode($data);
+            }
+        } else {
             http_response_code(400);
             $data = [
                 'status' => 400,
-                'message' => 'ID người dùng không hợp lệ',
+                'message' => 'Thiếu ID người dùng!',
             ];
             echo json_encode($data);
-            exit;
         }
-     
-        $deleted_user = $nguoidungModel->deleteNguoidung($id); // Xóa người dùng
-        if ($deleted_user) {
-            http_response_code(200);
-            $data = [
-                'status' => 200,
-                'message' => 'Xoá thành công',
-            ];
-            echo json_encode($data);
-            exit;
-        } else {
-            http_response_code(500);
-            $data = [
-                'status' => 500,
-                'message' => 'Xoá thất bại!',
-            ];
-            echo json_encode($data);
-            exit;
-        }
-    } else {
-        // Nếu thiếu 'id_nguoidung', trả về lỗi
-        http_response_code(400);
-        $data = [
-            'status' => 400,
-            'message' => 'Thiếu ID người dùng',
-        ];
-        echo json_encode($data);
-    }
-    break;
+        break;
 }
+
+
 ?>

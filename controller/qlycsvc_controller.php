@@ -16,6 +16,8 @@ switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
             get_csvc_by_id($csvModel); // Lấy cơ sở vật chất theo ID
+        } else if (isset($_GET['timkiem'])) {
+            searchcsvc($csvModel); // Lấy độc giả theo ID
         } else {
             get_all_csvc($csvModel); // Lấy tất cả cơ sở vật chất
         }

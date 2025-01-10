@@ -14,10 +14,13 @@ switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
             readNhaxuatbanById($nxbModel); // Lấy nhà xuất bản theo ID
+        }  else if (isset($_GET['timkiem'])) {
+            searchNhaxuatban($nxbModel); // Tìm tác giả theo ID hoặc tên
         } else {
-            readAllNhaxuatban($nxbModel); // Lấy tất cả nhà xuất bản 
+            readAllNhaxuatban($nxbModel); // Lấy tất cả tác giả 
         }
         break;
+        
     
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
@@ -119,5 +122,9 @@ switch ($request_method) {
             echo json_encode($data);
         }
         break;
+
+        
 }
+
+
 ?>
