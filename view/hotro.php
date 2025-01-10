@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<title>Hoạt động sinh viên</title> 
+<title>Hỗ trợ sinh viên</title> 
 <style>
     .box h2 {
         float: left; 
@@ -18,15 +18,7 @@
         float: right;
         margin: 10px;
     }
-    .img {
-        width: 5rem;
-        height: 6rem;
-        border: 1px solid #ccc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .notification {
+    .support {
         padding: 20px;
         margin: 10px 0;
         border: 1px solid #ccc;
@@ -49,32 +41,32 @@
 </head>
 <body>
     <?php
-        include '../frontend/head.php';
+        include 'head.php';
     ?>
 
     <div class="container mt-4">
         <div class="box clearfix">
-            <h2>Hoạt động Sinh Viên</h2>
+            <h2>Hỗ Trợ Sinh Viên</h2>
         </div>
 
         <div class="table-container">
-        <div id="student-activities">
-            <div class="notification">
-                <h4>Hoạt động 1: Chương trình thiện nguyện</h4>
-                <p>Sinh viên tham gia chương trình thiện nguyện tại xã A, huyện B vào ngày 20/01/2025.</p>
-                <small>Ngày đăng: 10/01/2025</small>
+        <div id="student-support">
+            <div class="support">
+                <h4>Hỗ trợ 1: Tư vấn tâm lý</h4>
+                <p>Trung tâm hỗ trợ sinh viên cung cấp dịch vụ tư vấn tâm lý miễn phí vào các ngày thứ Hai và thứ Năm hàng tuần.</p>
+                <small>Thông báo: 10/01/2025</small>
             </div>
 
-            <div class="notification">
-                <h4>Hoạt động 2: Hội thảo kỹ năng mềm</h4>
-                <p>Hội thảo "Kỹ năng giao tiếp hiệu quả" sẽ diễn ra tại hội trường lớn vào ngày 25/01/2025.</p>
-                <small>Ngày đăng: 09/01/2025</small>
+            <div class="support">
+                <h4>Hỗ trợ 2: Hỗ trợ tài chính</h4>
+                <p>Chương trình hỗ trợ tài chính cho sinh viên khó khăn đang mở đơn đăng ký đến ngày 31/01/2025.</p>
+                <small>Thông báo: 09/01/2025</small>
             </div>
 
-            <div class="notification">
-                <h4>Hoạt động 3: Giải bóng đá sinh viên</h4>
-                <p>Đăng ký tham gia giải bóng đá sinh viên tại văn phòng Đoàn trước ngày 15/01/2025.</p>
-                <small>Ngày đăng: 08/01/2025</small>
+            <div class="support">
+                <h4>Hỗ trợ 3: Hướng dẫn học tập</h4>
+                <p>Thư viện tổ chức các buổi hướng dẫn sử dụng tài liệu và kỹ năng học tập vào thứ Tư hàng tuần.</p>
+                <small>Thông báo: 08/01/2025</small>
             </div>
         </div>
         </div>

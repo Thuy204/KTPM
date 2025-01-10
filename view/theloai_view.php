@@ -10,48 +10,30 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        .box h2 {
-            float: left;
-            margin: 10px;
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-        .img {
-            width: 5rem;
-            height: 6rem;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php
-        include '../frontend/head.php';
-        include '../config/db.php';
-        include '../model/qlytheloai_model.php';
+        // Đoạn mã này include các file cần thiết và khởi tạo kết nối đến CSDL
+        include 'head.php'; // Thay đổi đường dẫn nếu cần
+        include '../config/db.php'; // Thay đổi đường dẫn nếu cần
     ?>
     <div class="container">
-    <div class="box">
-        <h2>DANH SÁCH THỂ LOẠI</h2>
-        <div class="row align-items-end">
-            <div class="col">
-                <input type="text" placeholder="Tìm kiếm" name="tim_theloai" class="form-control">
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary" onclick="searchTheloai()">Tìm kiếm</button>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Thêm mới</button>
-            </div>
-        </div>
+        < class="box">
+            <h2>DANH SÁCH THỂ LOẠI</h2>
+                <div class="row align-items-end">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Search" name="tim_theloai">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary" name="timkiem">Tìm kiếm</button>
+                        <button type="button" class="btn btn-success" id="button-add">Add</button>
+                    </div>
+                </div>
     </div>
         <!-- Bảng hiển thị danh sách thể loại -->
-        <table class="table table-striped table-hover">
+         <div class="table-container">
+         <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -64,6 +46,8 @@
                 
             </tbody>
         </table>
+
+         </div>
         <!-- Nút thêm mới và modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">

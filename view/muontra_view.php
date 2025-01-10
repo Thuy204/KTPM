@@ -7,20 +7,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>Quản lý phiếu mượn trả</title>
-    <style>
-        .box h2 {
-            float: left; 
-            margin: center; 
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-    </style>
 </head>
 <body>
-<?php include '../frontend/head.php'; ?>
+<?php include 'head.php'; ?>
 
 <div class="container">
     <div class="box">
@@ -38,7 +29,7 @@
             </div>
     </div>
 
-    <div class="table-responsive" >
+    <div class="table-container" >
     <table class="table table-striped table-hover">
         <thead>
         <tr>

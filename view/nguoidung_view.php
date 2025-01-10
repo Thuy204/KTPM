@@ -7,41 +7,32 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>Quản lý người dùng</title>
-    <style>
-        .box h2 {
-            float: left;
-            margin: 0;
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-    </style>
+
 </head>
 <body>
 <?php
-    include '../frontend/head.php';
+    include 'head.php';
     include '../config/db.php';
     include '../model/qlynguoidung_model.php';
 ?>
 <div class="container">
     <div class="box">
         <h2>DANH SÁCH NGƯỜI DÙNG</h2>
-        <form action="search_nguoidung.php" method="POST">
             <div class="row align-items-end">
                 <div class="col">
                     <input type="text" placeholder="Search" name="tim_nguoidung" class="form-control">
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary" name="timkiem">Search</button>
+                    <button type="submit" class="btn btn-primary" onclick="searchNguoidung()" name="timkiem">Search</button>
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
                 </div>
             </div>
-        </form>
     </div>
+    <div class="table-container">
     <table class="table table-striped table-hover">
         <thead>
             <tr>
@@ -55,6 +46,9 @@
         </thead>
         <tbody id="nguoidung_table"></tbody>
     </table>
+
+    </div>
+    
 </div>
 
 <!-- Modal Add -->
@@ -218,43 +212,43 @@
 
     // Sửa người dùng
     // Sửa người dùng
-function editNguoidung(id) {
-    fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id=${id}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Lỗi HTTP: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(nguoidung => {
-        if (nguoidung) {
-            document.getElementById('nguoidung_id').value = nguoidung.id_nguoidung;
-            document.getElementById('edit_ten_nguoidung').value = nguoidung.ten_nguoidung;
-            document.getElementById('edit_email_nguoidung').value = nguoidung.email_nguoidung;
-            document.getElementById('edit_matkhau_nguoidung').value = nguoidung.matkhau_nguoidung;
-            document.querySelector(`input[name="edit_vaitro"][value="${nguoidung.vaitro_nguoidung}"]`).checked = true;
-            $('#editModal').modal('show');
-        } else {
-            alert("Không tìm thấy thông tin người dùng!");
-        }
-    })
-    .catch(error => {
-        console.error('Lỗi:', error);
-        alert("Lỗi khi tải thông tin!");
-    });
+function editNguoidung(id_nguoidung) {
+    fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id=${id_nguoidung}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Lỗi HTTP: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(nguoidung => {
+            if (nguoidung) {
+                document.getElementById('nguoidung_id').value = nguoidung.id_nguoidung;
+                document.getElementById('edit_ten_nguoidung').value = nguoidung.ten_nguoidung;
+                document.getElementById('edit_email_nguoidung').value = nguoidung.email_nguoidung;
+                document.getElementById('edit_matkhau_nguoidung').value = nguoidung.matkhau_nguoidung;
+                document.querySelector(`input[name="edit_vaitro"][value="${nguoidung.vaitro_nguoidung}"]`).checked = true;
+                $('#editModal').modal('show');
+            } else {
+                alert("Không tìm thấy thông tin người dùng!");
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            alert("Lỗi khi tải thông tin!");
+        });
 }
 
 // Cập nhật thông tin người dùng
 document.getElementById('editForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    const id = document.getElementById('nguoidung_id').value;
+    // const id = document.getElementById('nguoidung_id').value;
     const data = {
         ten_nguoidung: document.getElementById('edit_ten_nguoidung').value,
         email_nguoidung: document.getElementById('edit_email_nguoidung').value,
         matkhau_nguoidung: document.getElementById('edit_matkhau_nguoidung').value,
         vaitro_nguoidung: document.querySelector('input[name="edit_vaitro"]:checked')?.value
     };
-    fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id=${id}`, {
+    fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -263,6 +257,7 @@ document.getElementById('editForm').addEventListener('submit', function(event) {
     .then(data => {
         alert(data.message);
         $('#editModal').modal('hide');
+        
         loadNguoidung();
     })
     .catch(error => {
@@ -274,12 +269,11 @@ document.getElementById('editForm').addEventListener('submit', function(event) {
 
     // Xóa người dùng
     // Xóa người dùng
-function deleteNguoidung(id) {
+function deleteNguoidung(id_nguoidung) {
     if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
-        fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php`, {
+        fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?id_nguoidung=${id_nguoidung}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id_nguoidung: id })
         })
         .then(response => {
             if (!response.ok) {
@@ -300,6 +294,49 @@ function deleteNguoidung(id) {
             alert("Đã xảy ra lỗi khi cố gắng xóa!");
         });
     }
+}
+
+function searchNguoidung() {
+    const giatri_tim = document.querySelector('input[name="tim_nguoidung"]').value; // Lấy giá trị từ ô tìm kiếm
+    fetch(`http://localhost/KTPM/controller/qlynguoidung_controller.php?timkiem=${encodeURIComponent(giatri_tim)}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Chuyển đổi phản hồi thành JSON
+    })
+    .then(data => {
+        const tableBody = document.getElementById('nguoidung_table');
+        tableBody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
+        // Duyệt qua từng mục trong dữ liệu và thêm vào bảng
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không tìm thấy kết quả.</td></tr>';
+        } else {
+            data.forEach(tacgia => {
+                const row = document.createElement('tr'); // Tạo một hàng mới cho bảng
+                row.innerHTML = `
+                    <td>${nguoidung.id_nguoidung}</td>
+                    <td>${nguoidung.ten_nguoidung}</td>
+                    <td>${nguoidung.email_nguoidung}</td>
+                    <td>${nguoidung.matkhau_nguoidung}</td>
+                    <td>${nguoidung.vaitro_nguoidung}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editNguoidung(${nguoidung.id_nguoidung})">Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteNguoidung(${nguoidung.id_nguoidung})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row); // Thêm hàng mới vào bảng
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error); // Xử lý lỗi nếu có
+    });
 }
 
 

@@ -42,6 +42,17 @@ class Docgia {
         $query = "DELETE FROM docgia WHERE docgia_id=$id";
         return mysqli_query($this->conn, $query);
     }
+    public function searchDocgia($timkiem){
+        $query= "SELECT * FROM docgia
+         WHERE docgia_id='$timkiem'OR ten_docgia LIKE n'%$timkiem%'";
+        $result = mysqli_query($this->conn, $query);
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
+        } else {
+            return [];
+        }
+    }
     }
     function readAllDocgia($docgiaModel) {
         $docgia = $docgiaModel->readAllDocgia();
@@ -108,4 +119,14 @@ function deleteDocgia($docgiaModel) {
         echo json_encode(["message" => "Xóa độc giả thất bại!"]);
     }
 }
+function searchDocgia($docgiaModel) {
+    $timkiem = $_GET['timkiemDG']; // Lấy ID từ URL
+    $docgia = $docgiaModel->searchDocgia($timkiem);
+    if ($docgia) {
+        echo json_encode($docgia); // Trả về dữ liệu độc giả theo ID
+    } else {
+        echo json_encode(["message" => "Không tìm thấy độc giả nào!"]);
+    }
+}
+
 ?>

@@ -7,38 +7,32 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Quản lý nhà xuất bản</title>
-    <style>
-        .box h2 {
-            float: left; 
-            margin: center; 
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <title>Quản lý Nhà Xuất Bản</title>
+
 </head>
 <body>
-<?php include '../frontend/head.php'; ?>
-
-<div class="container">
-    <div class="box">
-        <h2>DANH SÁCH NHÀ XUẤT BẢN</h2>
-        <div class="row align-items-end">
-            <div class="col">
-                <input type="text" placeholder="Tìm kiếm" name="tim_nxb" class="form-control">
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary" onclick="searchNhaxuatban()">Tìm kiếm</button>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Thêm mới</button>
-            </div>
+    <?php
+        include 'head.php';
+        include '../config/db.php';
+        include '../model/qlynxb_model.php';
+    ?>
+    <div class="container">
+        <div class="box">
+            <h2>DANH SÁCH NHÀ XUẤT BẢN</h2>
+                <div class="row align-items-end">
+                    <div class="col">
+                        <input type="text" placeholder="Search" name="tim_nxb" class="form-control">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary" name="timkiem">Search</button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-success" id="button-add">Add</button>
+                    </div>
+                </div>
         </div>
-    </div>
-
-    <div class="table-responsive">
+        <div class="table-container">
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -50,6 +44,7 @@
             </thead>
             <tbody id="nhaxuatban_table"></tbody>
         </table>
+        </div>
     </div>
 </div>
 

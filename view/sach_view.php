@@ -7,30 +7,12 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
+<link rel="stylesheet" href="style.css">
     <title>Quản lý Sách</title>
-    <style>
-        .box h2 {
-            float: left; 
-            margin: 10px; 
-        }
-        .box form {
-            float: right;
-            margin: 10px;
-        }
-        .img {
-            width: 5rem;
-            height: 6rem;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
 </head>
 <body>
 <?php
-        include '../frontend/head.php';
+        include 'head.php';
         include '../config/db.php';
         include '../model/qlydocgia_model.php';
     ?>
@@ -50,7 +32,7 @@
                     </div>
                 </div>
         </div>
-
+        <div clas="table-container">
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -68,6 +50,9 @@
                 <!-- Dữ liệu sách sẽ được điền vào đây qua AJAX -->
             </tbody>
         </table>
+
+        </div>
+        
     </div>
 
     <!-- Modal Add -->
