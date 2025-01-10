@@ -59,10 +59,10 @@
                     <th>ID</th>
                     <th>Tên sách</th>
                     <th>Tác giả</th>
-                    <th>Thể loại</th>
-                    <th>NXB</th>
-                    <th>Số lượng tồn kho</th>
+                    <th>Nhà Xuất Bản</th>
+                    <th>Thể Loại</th>
                     <th>Mô tả sách</th>
+                    <th>Số lượng tồn kho</th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
@@ -169,12 +169,11 @@
     </div>
 
     <script>
-// Hàm load dữ liệu sách
 function loadSach() {
     fetch('http://localhost/KTPM/controller/qlysach_controller.php', {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
+            'Content-Type': 'application/json'
         },
     })
     .then(response => {
@@ -191,9 +190,9 @@ function loadSach() {
             row.innerHTML = `
                 <td>${sach.sach_id}</td>
                 <td>${sach.ten_sach}</td>
-                <td>${sach.tacgia_id}</td>
-                <td>${sach.nxb_id}</td>
-                <td>${sach.theloai_id}</td>
+                <td>${sach.ten_tacgia}</td>
+                <td>${sach.ten_nxb}</td>
+                <td>${sach.ten_theloai}</td>
                 <td>${sach.mota_sach}</td>
                 <td>${sach.soluong_tonkho}</td>
                 <td>

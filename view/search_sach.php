@@ -15,10 +15,10 @@
             <th>ID Sách</th>
             <th>Tên Sách</th>
             <th>Tác Giả</th>
-            <th>Thể Loại</th>
             <th>Nhà Xuất Bản</th>
-            <th>Số Lượng Tồn Kho</th>
+            <th>Thể Loại</th>
             <th>Mô Tả</th>
+            <th>Số Lượng Tồn Kho</th>
         </thead>
         <tbody>
 <?php
@@ -40,10 +40,10 @@
                     <td>" . $row["sach_id"] . "</td>
                     <td>" . $row["ten_sach"] . "</td>
                     <td>" . $row["ten_tacgia"] . "</td>
-                    <td>" . $row["ten_theloai"] . "</td>
                     <td>" . $row["ten_nxb"] . "</td>
-                    <td>" . $row["soluong_tonkho"] . "</td>
+                    <td>" . $row["ten_theloai"] . "</td>
                     <td>" . $row["mota_sach"] . "</td>
+                    <td>" . $row["soluong_tonkho"] . "</td>
                 </tr>";
         }
         echo "</tbody>
