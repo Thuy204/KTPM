@@ -105,6 +105,22 @@ class Muontra{
         $query = "DELETE FROM muon_tra WHERE muontra_id=$muontra_id";
         return mysqli_query($this->conn, $query);
     }
+    public function searchMuontra($timkiem){
+        $query= "SELECT muontra_id, d.ten_docgia, s.ten_sach,
+        soluong, ngaymuon, hantra, ngaytra, trang_thai  
+        FROM muon_tra mt
+        JOIN docgia d ON mt.docgia_id= d.docgia_id
+        JOIN sach s ON mt.sach_id= s.sach_id
+         WHERE muontra_id='$timkiem'OR ten_docgia LIKE n'%$timkiem%'";
+        $result = mysqli_query($this->conn, $query);
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
+        } else {
+            return [];
+        }
+    }
+
     }
     function readAllMuontra($muontraModel) {
         $muontra = $muontraModel->readAllMuontra();
@@ -161,6 +177,15 @@ function deleteMuontra($muontraModel) {
         echo json_encode(["message" => "Xoá phiếu thành công!"]);
     } else {
         echo json_encode(["message" => "Xóa phiếu thất bại!"]);
+    }
+}
+function searchMuontra($muontraModel) {
+    $timkiem = $_GET['timkiem']; // Lấy ID từ URL
+    $muontra = $muontraModel->searchMuontra($timkiem);
+    if ($muontra) {
+        echo json_encode($muontra); // Trả về dữ liệu độc giả theo ID
+    } else {
+        echo json_encode(["message" => "Không tìm thấy phiếu mượn trả nào!"]);
     }
 }
 ?>

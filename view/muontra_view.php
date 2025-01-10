@@ -25,19 +25,17 @@
 <div class="container">
     <div class="box">
         <h2>DANH SÁCH PHIẾU MƯỢN TRẢ</h2>
-        <form action="search_muontra.php" method="POST">
             <div class="row align-items-end">
                 <div class="col">
                     <input type="text" placeholder="Search" name="tim_muontra" class="form-control">
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary" name="timkiem">Tìm kiếm</button>
+                    <button type="submit" class="btn btn-primary" onclick="searchMuontra()">Tìm kiếm</button>
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Thêm mới</button>
                 </div>
             </div>
-        </form>
     </div>
 
     <div class="table-responsive" >
@@ -345,6 +343,53 @@ document.getElementById('editFormMT').addEventListener('submit', function (event
             alert("Đã xảy ra lỗi khi cố gắng xóa!");
         });
     }
+}
+function searchMuontra() {
+    const giatri_tim = document.querySelector('input[name="tim_muontra"]').value; // Lấy giá trị từ ô tìm kiếm
+
+    fetch(`http://localhost/KTPM/controller/qlmuontra_controller.php?timkiem=${encodeURIComponent(giatri_tim)}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Chuyển đổi phản hồi thành JSON
+    })
+    .then(data => {
+        const tableBody = document.getElementById('muontra_table');
+        tableBody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
+
+        // Duyệt qua từng mục trong dữ liệu và thêm vào bảng
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="9" class="text-center">Không tìm thấy kết quả.</td></tr>';
+        } else {
+            data.forEach(muontra => {
+                const row = document.createElement('tr'); // Tạo một hàng mới cho bảng
+                row.innerHTML = `
+                    <td>${muontra.muontra_id}</td>
+                    <td>${muontra.ten_docgia}</td>
+                    <td>${muontra.ten_sach}</td>
+                    <td>${muontra.soluong}</td>
+                    <td>${muontra.ngaymuon}</td>
+                    <td>${muontra.hantra}</td>
+                    <td>${muontra.ngaytra || 'Chưa trả'}</td>
+                    <td>${muontra.trang_thai}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editMuontra(${muontra.muontra_id})">Trả sách</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteMuontra(${muontra.muontra_id})">Xoá phiếu</button>
+                    </td>
+                `;
+                tableBody.appendChild(row); // Thêm hàng mới vào bảng
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error); // Xử lý lỗi nếu có
+    });
 }
 
 window.onload = loadMuontra;
