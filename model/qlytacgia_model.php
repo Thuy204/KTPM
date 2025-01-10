@@ -50,6 +50,19 @@ class Tacgia {
         $query = "DELETE FROM tacgia WHERE tacgia_id=$id";
         return mysqli_query($this->conn, $query);
     }
+    public function searchTacgia($timkiem) {
+        $query = "SELECT * FROM tacgia 
+                  WHERE tacgia_id = '$timkiem' OR ten_tacgia LIKE n'%$timkiem%'";
+        $result = mysqli_query($this->conn, $query);
+    
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
+        } else {
+            return [];
+        }
+    }
+    
 }
 
 // Hàm xử lý API tương tự
@@ -124,4 +137,14 @@ function deleteTacgia($tacgiaModel) {
         echo json_encode(["message" => "Xóa tác giả thất bại!"]);
     }
 }
+function searchTacgia($tacgiaModel) {
+    $timkiem = $_GET['timkiem']; // Lấy từ khóa tìm kiếm từ URL
+    $tacgia = $tacgiaModel->searchTacgia($timkiem);
+    if ($tacgia) {
+        echo json_encode($tacgia); // Trả về danh sách tác giả dưới dạng JSON
+    } else {
+        echo json_encode(["message" => "Không tìm thấy tác giả nào!"]);
+    }
+}
+
 ?>

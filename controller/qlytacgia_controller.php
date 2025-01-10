@@ -13,6 +13,8 @@ switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
             readTacgiaById($tacgiaModel); // Lấy tác giả theo ID
+        } else if (isset($_GET['timkiem'])) {
+            searchTacgia($tacgiaModel); // Tìm tác giả theo ID hoặc tên
         } else {
             readAllTacgia($tacgiaModel); // Lấy tất cả tác giả 
         }
