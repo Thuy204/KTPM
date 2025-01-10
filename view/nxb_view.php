@@ -263,24 +263,23 @@
     fetch(`http://localhost/KTPM/controller/qlynxb_controller.php?timkiem=${encodeURIComponent(giatri_tim)}`, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json' // Đặt tiêu đề Content-Type là application/json
+            'Content-Type': 'application/json'
         }
     })
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json(); // Chuyển đổi phản hồi thành JSON
+        return response.json();
     })
     .then(data => {
-        const tableBody = document.getElementById('nxb_table');
-        tableBody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
-        // Duyệt qua từng mục trong dữ liệu và thêm vào bảng
+        const tableBody = document.getElementById('nhaxuatban_table');
+        tableBody.innerHTML = ''; // Xoá dữ liệu cũ trong bảng
         if (data.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không tìm thấy kết quả.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="4" class="text-center">Không tìm thấy kết quả.</td></tr>';
         } else {
             data.forEach(nxb => {
-                const row = document.createElement('tr'); // Tạo một hàng mới cho bảng
+                const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${nxb.nxb_id}</td>
                     <td>${nxb.ten_nxb}</td>
@@ -290,12 +289,13 @@
                         <button class="btn btn-danger btn-sm" onclick="deletenxb(${nxb.nxb_id})">Xóa</button>
                     </td>
                 `;
-                tableBody.appendChild(row); // Thêm hàng mới vào bảng
+                tableBody.appendChild(row);
             });
         }
     })
     .catch(error => {
-        console.error('Lỗi:', error); // Xử lý lỗi nếu có
+        console.error('Lỗi:', error);
+        alert('Đã xảy ra lỗi khi tìm kiếm: ' + error.message);
     });
 }
 
