@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <title>Quản lý cơ sở vật chất</title>
+    <title>Quản lý Sách</title>
     <style>
         .box h2 {
             float: left; 
@@ -215,7 +215,7 @@ document.getElementById('addForm').addEventListener('submit', function(event) {
     const data = {
         sach_id: document.getElementById('sach_id').value,
         ten_sach: document.getElementById('ten_sach').value,
-        tacgia: document.getElementById('tacgia_id').value,
+        tacgia_id: document.getElementById('tacgia_id').value,
         nxb_id: document.getElementById('nxb_id').value,
         theloai_id: document.getElementById('theloai_id').value,
         mota_sach: document.getElementById('mota_sach').value,
@@ -331,7 +331,7 @@ document.getElementById('editForm').addEventListener('submit', function(event) {
 // Hàm xóa sách
 function deleteSach(sach_id) {
     if (confirm("Bạn có chắc chắn muốn xóa sách này?")) {
-        fetch(`http://localhost/KTPM/controller/qlysach_controller.php?sach_id=${sach_id}`, {
+        fetch(`http://localhost/KTPM/controller/qlysach_controller.php?id=${sach_id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',  // Đảm bảo rằng headers là json
