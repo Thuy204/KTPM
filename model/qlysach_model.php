@@ -91,6 +91,11 @@ function addSach($sachModel) {
     $motaSach = $data["mota_sach"];
     $tenSach = $data["ten_sach"];
     $soLuongTonKho = $data["soluong_tonkho"];
+     // Kiểm tra số lượng tồn kho có phải là số dương không
+     if ($soLuongTonKho < 0) {
+        echo json_encode(["message" => "Số lượng tồn kho không được là số âm!"]);
+        return;
+    }
 
     if ($sachModel->addSach($sachId, $tacgiaId, $theloaiId, $nxbId, $motaSach, $tenSach, $soLuongTonKho)) {
         echo json_encode(["message" => "Thêm sách thành công!"]);
