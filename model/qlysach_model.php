@@ -9,11 +9,7 @@ class Sach {
 
     // Lấy danh sách tất cả sách
     public function readAllSach() {
-        $query = " SELECT  sach_id, ten_sach, tg.ten_tacgia, tl.ten_theloai, nxb.ten_nxb, mota_sach, soluong_tonkho 
-                FROM sach
-                LEFT JOIN tacgia tg ON sach.tacgia_id = tg.tacgia_id
-                LEFT JOIN theloai tl ON sach.theloai_id = tl.theloai_id
-                LEFT JOIN nhaxuatban nxb ON sach.nxb_id = nxb.nxb_id ";
+        $query = "SELECT * FROM " . $this->table;
         $result = mysqli_query($this->conn, $query);
 
         if ($result) {
@@ -25,12 +21,7 @@ class Sach {
 
     // Lấy thông tin sách theo ID
     public function readSachById($id) {
-        $query = " SELECT  sach_id, ten_sach, tg.ten_tacgia, tl.ten_theloai, nxb.ten_nxb, mota_sach, soluong_tonkho 
-                FROM sach
-                LEFT JOIN tacgia tg ON sach.tacgia_id = tg.tacgia_id
-                LEFT JOIN theloai tl ON sach.theloai_id = tl.theloai_id
-                LEFT JOIN nhaxuatban nxb ON sach.nxb_id = nxb.nxb_id
-                WHERE sach.sach_id = $id ";
+        $query = "SELECT * FROM " . $this->table . " WHERE sach_id = $id";
         $result = mysqli_query($this->conn, $query);
 
         if ($result) {
@@ -51,7 +42,7 @@ class Sach {
 
     // Cập nhật thông tin sách
     public function updateSach($sachId, $tacgiaId, $theloaiId, $nxbId, $motaSach, $tenSach, $soLuongTonKho) {
-        $query = "UPDATE sach
+        $query = "UPDATE " . $this->table . " 
             SET tacgia_id = $tacgiaId, theloai_id = $theloaiId, nxb_id = $nxbId, 
                 mota_sach = n'$motaSach', ten_sach = n'$tenSach', soluong_tonkho = $soLuongTonKho 
             WHERE sach_id = $sachId";
@@ -61,7 +52,7 @@ class Sach {
 
     // Xóa sách theo ID
     public function deleteSach($sachId) {
-        $query = "DELETE FROM sach WHERE sach_id = $sachId";
+        $query = "DELETE FROM " . $this->table . " WHERE sach_id = $sachId";
         return mysqli_query($this->conn, $query);
     }
 }
