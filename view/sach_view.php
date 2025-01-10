@@ -272,7 +272,6 @@ function editSach(sach_id) {
                 document.getElementById('edit_theloai_id').value = sach.theloai_id;
                 document.getElementById('edit_mota_sach').value = sach.mota_sach;
                 document.getElementById('edit_soluong_tonkho').value = sach.soluong_tonkho;
-                document.getElementById('sach_id').value = sach.sach_id;
                 $('#editModal').modal('show');
             } else {
                 alert("Không tìm thấy thông tin sách!");

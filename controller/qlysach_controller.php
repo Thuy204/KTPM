@@ -16,51 +16,9 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 switch ($request_method) {
     case 'GET':
         if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-            $query = "
-                SELECT 
-                    sach.sach_id, 
-                    sach.ten_sach, 
-                    tacgia.ten_tacgia, 
-                    theloai.ten_theloai, 
-                    nhaxuatban.ten_nxb, 
-                    sach.mota_sach, 
-                    sach.soluong_tonkho 
-                FROM sach
-                LEFT JOIN tacgia ON sach.tacgia_id = tacgia.tacgia_id
-                LEFT JOIN theloai ON sach.theloai_id = theloai.theloai_id
-                LEFT JOIN nhaxuatban ON sach.nxb_id = nhaxuatban.nxb_id
-                WHERE sach.sach_id = $id
-            ";
-            $result = mysqli_query($conn, $query);
-            $data = mysqli_fetch_assoc($result);
-            if ($data) {
-                echo json_encode($data);
-            } else {
-                http_response_code(404);
-                echo json_encode(["message" => "Không tìm thấy sách với ID này!"]);
-            }
+            readSachById($sachModel); // Lấy sách theo ID
         } else {
-            $query = "
-                SELECT 
-                    sach.sach_id, 
-                    sach.ten_sach, 
-                    tacgia.ten_tacgia, 
-                    theloai.ten_theloai, 
-                    nhaxuatban.ten_nxb, 
-                    sach.mota_sach, 
-                    sach.soluong_tonkho 
-                FROM sach
-                LEFT JOIN tacgia ON sach.tacgia_id = tacgia.tacgia_id
-                LEFT JOIN theloai ON sach.theloai_id = theloai.theloai_id
-                LEFT JOIN nhaxuatban ON sach.nxb_id = nhaxuatban.nxb_id
-            ";
-            $result = mysqli_query($conn, $query);
-            $data = [];
-            while ($row = mysqli_fetch_assoc($result)) {
-                $data[] = $row;
-            }
-            echo json_encode($data);
+            readAllSach($sachModel); // Lấy tất cả sách
         }
         break;
 
