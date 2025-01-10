@@ -21,8 +21,23 @@ class CSVModel {
         $query = "DELETE FROM cosovatchat WHERE csvc_id=$csvc_id";
         return mysqli_query($this->conn, $query);
     }
+    // Phương thức tìm kiếm 
+    public function searchcsvc($timkiem) {
+        $query = "SELECT csvc_id, ten_csvc, soluong_csvc, tinhtrang_csvc
+                  FROM cosovatchat
+                  WHERE ten_csvc LIKE N'%$timkiem%'"; // Tìm kiếm theo tên sản phẩm
+        $result = mysqli_query($this->conn, $query);
+        // Kiểm tra kết quả và trả về dữ liệu dạng mảng
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC); // Trả về kết quả dạng mảng liên kết
+        } else {
+            return [];
+        }
+    }
+    
+    
 
-    // Thêm phương thức lấy tất cả cơ sở vật chất
+    // Phương thức lấy tất cả cơ sở vật chất
     public function get_all_csvc() {
         $query = "SELECT * FROM cosovatchat";
         $result = mysqli_query($this->conn, $query);
@@ -35,7 +50,7 @@ class CSVModel {
         }
     }
 
-    // Thêm phương thức lấy cơ sở vật chất theo ID
+    // Phương thức lấy cơ sở vật chất theo ID
     public function get_csvc_by_id($csvc_id) {
         $query = "SELECT * FROM cosovatchat WHERE csvc_id = $csvc_id";
         $result = mysqli_query($this->conn, $query);
@@ -118,4 +133,15 @@ function get_csvc_by_id($csvModel) {
         echo json_encode(["message" => "Không tìm thấy cơ sở vật chất với ID: $csvc_id"]);
     }
 }
+
+function searchcsvc($csvcModel) {
+    $timkiem = $_GET['timkiem']; // Lấy dữ liệu tìm kiếm từ URL
+    $csvc = $csvcModel->searchcsvc($timkiem);
+    if ($csvc) {
+        echo json_encode($csvc); // Trả về dữ liệu cơ sở vật chất tìm thấy
+    } else {
+        echo json_encode(["message" => "Không tìm thấy cơ sở vật chất nào!"]);
+    }
+}
+
 ?>
