@@ -13,7 +13,7 @@
 </head>
 <body>
 <?php
-    include 'head.php';
+    include '../view/head.php'
     include '../config/db.php';
     include '../model/qlynguoidung_model.php';
 ?>

@@ -35,7 +35,125 @@ switch ($request_method) {
         $mota = $data['mota_sach'];
         $tenSach = $data['ten_sach'];
         $soluong = intval($data['soluong_tonkho']);
+        // Kiểm tra xem sach_id có tồn tại hay không
+        $query = "SELECT EXISTS(SELECT 1 FROM sach WHERE sach_id = ?)";
+        if ($stmt = $conn->prepare($query)) {
+            $stmt->bind_param("i", $sachId);
+            $stmt->execute();
+            $stmt->bind_result($exists);
+            $stmt->fetch();
+            $stmt->close();
 
+            if ($exists) { // Nếu sach_id đã tồn tại
+                http_response_code(409); // Mã lỗi 409: Conflict
+                $data = [
+                    'status' => 409,
+                    'message' => 'Mã sách đã tồn tại!',
+                ];
+                echo json_encode($data);
+                exit; // Dừng thực thi đoạn mã tiếp theo
+            }
+        } else {
+            http_response_code(500); // Lỗi server
+            $data = [
+                'status' => 500,
+                'message' => 'Lỗi khi kiểm tra trùng mã sách!',
+            ];
+            echo json_encode($data);
+            exit; // Dừng thực thi đoạn mã tiếp theo
+        }
+        // Kiểm tra xem tác giả có tồn tại không
+        $query = "SELECT COUNT(*) FROM tacgia WHERE tacgia_id = ?";
+        if ($stmt = $conn->prepare($query)) {
+            $stmt->bind_param("i", $tacgiaId);
+            $stmt->execute();
+            $stmt->bind_result($count);
+            $stmt->fetch();
+            $stmt->close();
+
+            if ($count == 0) {
+                http_response_code(404);
+                $data = [
+                    'status' => 404,
+                    'message' => 'Tác giả không tồn tại!',
+                ];
+                echo json_encode($data);
+                break;
+            }
+        } else {
+            http_response_code(500);
+            $data = [
+                'status' => 500,
+                'message' => 'Lỗi khi kiểm tra tác giả!',
+            ];
+            echo json_encode($data);
+            break;
+        }
+        // Kiểm tra xem thể loại có tồn tại không
+        $query = "SELECT COUNT(*) FROM theloai WHERE theloai_id = ?";
+        if ($stmt = $conn->prepare($query)) {
+            $stmt->bind_param("i", $theloaiId);
+            $stmt->execute();
+            $stmt->bind_result($count);
+            $stmt->fetch();
+            $stmt->close();
+
+            if ($count == 0) {
+                http_response_code(404);
+                $data = [
+                    'status' => 404,
+                    'message' => 'Thể loại không tồn tại!',
+                ];
+                echo json_encode($data);
+                break;
+            }
+        } else {
+            http_response_code(500);
+            $data = [
+                'status' => 500,
+                'message' => 'Lỗi khi kiểm tra thể loại!',
+            ];
+            echo json_encode($data);
+            break;
+        }
+        // Kiểm tra xem nhà xuất bản có tồn tại không
+        $query = "SELECT COUNT(*) FROM nhaxuatban WHERE nxb_id = ?";
+        if ($stmt = $conn->prepare($query)) {
+            $stmt->bind_param("i", $nxbId);
+            $stmt->execute();
+            $stmt->bind_result($count);
+            $stmt->fetch();
+            $stmt->close();
+
+            if ($count == 0) {
+                http_response_code(404);
+                $data = [
+                    'status' => 404,
+                    'message' => 'Nhà xuất bản không tồn tại!',
+                ];
+                echo json_encode($data);
+                break;
+            }
+        } else {
+            http_response_code(500);
+            $data = [
+                'status' => 500,
+                'message' => 'Lỗi khi kiểm tra nhà xuất bản!',
+            ];
+            echo json_encode($data);
+            break;
+        }
+        // Kiểm tra số lượng nhập phải lớn hơn 0
+        if ($soluong <= 0) {
+            http_response_code(400); // Mã lỗi 400: Bad Request
+            $response = [
+                'status' => 400,
+                'message' => 'Số lượng nhập phải lớn hơn 0!',
+            ];
+            echo json_encode($response);
+            exit; // Dừng thực thi đoạn mã tiếp theo
+        }
+         
         if ($sachModel->addSach($sachId, $tacgiaId, $theloaiId, $nxbId, $mota, $tenSach, $soluong)) {
             http_response_code(201);
             echo json_encode(["message" => "Thêm sách thành công!"]);
@@ -60,6 +178,16 @@ switch ($request_method) {
         $mota = $data['mota_sach'];
         $tenSach = $data['ten_sach'];
         $soluong = intval($data['soluong_tonkho']);
+        // Kiểm tra số lượng nhập phải lớn hơn 0
+        if ($soluong <= 0) {
+            http_response_code(400); // Mã lỗi 400: Bad Request
+            $response = [
+                'status' => 400,
+                'message' => 'Số lượng nhập phải lớn hơn 0!',
+            ];
+            echo json_encode($response);
+            exit; // Dừng thực thi đoạn mã tiếp theo
+        }
 
         if ($sachModel->updateSach($id, $tacgiaId, $theloaiId, $nxbId, $mota, $tenSach, $soluong)) {
             http_response_code(200);
