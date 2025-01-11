@@ -12,7 +12,7 @@
 </head>
 <body>
 <?php
-        include 'head.php';
+        include '../view/head.php'
         include '../config/db.php';
         include '../model/qlydocgia_model.php';
     ?>
@@ -122,16 +122,16 @@
                             <input type="text" class="form-control" id="edit_ten_sach" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_tacgia_id" class="form-label">Tác giả</label>
-                            <input type="text" class="form-control" id="edit_tacgia_id" required>
+                            <label for="edit_tacgia_id" class="form-label">ID Tác giả</label>
+                            <input type="text" class="form-control" id="edit_tacgia_id" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_theloai_id" class="form-label">Thể loại</label>
-                            <input type="text" class="form-control" id="edit_theloai_id" required>
+                            <label for="edit_theloai_id" class="form-label">ID Thể loại</label>
+                            <input type="text" class="form-control" id="edit_theloai_id" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_nxb_id" class="form-label">NXB</label>
-                            <input type="text" class="form-control" id="edit_nxb_id" required>
+                            <label for="edit_nxb_id" class="form-label">ID NXB</label>
+                            <input type="text" class="form-control" id="edit_nxb_id" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="edit_mota_sach" class="form-label">Mô tả</label>

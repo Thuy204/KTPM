@@ -14,7 +14,7 @@
 <body>
     <!-- Bao gồm phần header và cấu hình -->
     <?php
-        include 'head.php';
+        include '../view/head.php';
         include '../config/db.php';
         include '../model/qlytacgia_model.php';
     ?>
@@ -169,7 +169,7 @@ function loadTacgia() {
                 <td>${tacgia.gioitinh_tacgia === "0" ? 'Nam' : 'Nữ'}</td>
                 <td>${tacgia.thongtin_tacgia}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm" onclick="editTacgia(${tacgia.tacgia_id})">Sửa</button>
+                    <button class="btn btn-warning btn-sm" onclick="editTacgia(${tacgia.tacgia_id})">Cập nhập</button>
                     <button class="btn btn-danger btn-sm" onclick="deleteTacgia(${tacgia.tacgia_id})">Xóa</button>
                 </td>
             `;

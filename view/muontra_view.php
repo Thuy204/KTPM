@@ -11,7 +11,7 @@
     <title>Quản lý phiếu mượn trả</title>
 </head>
 <body>
-<?php include 'head.php'; ?>
+include '../view/head.php'
 
 <div class="container">
     <div class="box">

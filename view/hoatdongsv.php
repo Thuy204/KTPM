@@ -49,7 +49,7 @@
 </head>
 <body>
     <?php
-        include 'head.php';
+        include '../view/head.php'
     ?>
 
     <div class="container mt-4">
